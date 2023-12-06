@@ -7,8 +7,8 @@ const router = createRouter({
     
     routes: [
         {
-            path: "/",
-            // path: "/mirror-webapp",
+            // path: "/",
+            path: "/mirror-webapp",
             component: AuthLayout,
             children:[
                 {
