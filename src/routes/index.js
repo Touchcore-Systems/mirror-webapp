@@ -4,11 +4,10 @@ import PasswordResetView from '../views/password/PasswordResetView.vue';
 import AuthLayout from '../layouts/AuthLayout.vue';
 const router = createRouter({
     history: createWebHistory(),
-    
     routes: [
         {
             // path: "/",
-            path: "/mirror-webapp/",
+            path: "/mirror-webapp",
             component: AuthLayout,
             children:[
                 {
