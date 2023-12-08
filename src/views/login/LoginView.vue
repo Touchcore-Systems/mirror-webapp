@@ -16,26 +16,27 @@ const loading = ref(false)
 
 const login = () => {
     loading.value = true;
-    console.log(email.value, password.value, loading.value, "dataaaaaaaaaaaaaaaaaaaaa");  
+    console.log(email.value, password.value, loading.value, "dataaaaaaaaaaaaaaaaaaaaa");
 }
 
 
 </script>
 <template>
-   
-                            <BaseError v-if="error" :error="error" />
-                            <BaseHeading heading="Sign In" />
+
+    <BaseError v-if="error" :error="error" />
+    <BaseHeading heading="Sign In" />
 
 
-                            <BaseInput v-model="email" type="email" placeholder="yourname@yourmail.com" label="Email" />
-                            <BaseInput v-model="password" type="password" placeholder="Enter your password" label="Password" />
+    <BaseInput v-model="email" type="email" placeholder="yourname@yourmail.com" label="Email" />
+    <BaseInput v-model="password" type="password" placeholder="Enter your password" label="Password" />
 
 
-                            <BaseButton @handleClick="login"  type="button" :loading="loading"  >Sign In  <BaseLoader v-if="loading"/> </BaseButton>
+    <BaseButton @handleClick="login"  type="button" :loading="loading">Sign In
+        <BaseLoader v-if="loading" />
+    </BaseButton>
 
-                            
-                            <PasswordResetIndicator />
-                            
+
+    <PasswordResetIndicator />
 </template>
 
 <style >
@@ -48,14 +49,6 @@ h1,
 h2,
 h3 {
     color: white;
-}
-
-.gradient-bg {
-    background: linear-gradient(90deg,
-            #424bb2 0%,
-            rgba(52, 134, 154, 1) 53%,
-            rgba(60, 204, 175, 1) 100%) !important;
-    border: none;
 }
 
 
