@@ -2,6 +2,10 @@ import { createRouter, createWebHistory } from "vue-router";
 import LoginView from '../views/login/LoginView.vue';
 import PasswordResetView from '../views/password/PasswordResetView.vue';
 import AuthLayout from '../layouts/AuthLayout.vue';
+import  DashboardLayout  from '../layouts/DashboardLayout.vue';
+
+
+import MyPatients from '../components/patients/MyPatients.vue';
 const router = createRouter({
     history: createWebHistory(),
     routes: [
@@ -23,9 +27,24 @@ const router = createRouter({
                 },
 
             ]
-
-
         },
+        {
+            path: "/mirror-webapp/my-patients",
+            component: MyPatients,
+        },
+        // {
+        //     path: "/mirror-webapp/dashboard",
+        //     component: DashboardLayout,
+        //     children:[
+        //         {
+        //             path:'',
+        //             name:'My Patients',
+        //             component:MyPatients
+        //         },
+        //     ]
+
+
+        // },
     ],
 });
 export default router

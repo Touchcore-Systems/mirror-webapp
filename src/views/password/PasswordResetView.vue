@@ -30,31 +30,3 @@ const resetPassword = () => {
     </BaseButton>
 </template>
 
-<style >
-body {
-    background: #3a3a45e6;
-    color: white;
-}
-
-h1,
-h2,
-h3 {
-    color: white;
-}
-
-.gradient-bg {
-    background: linear-gradient(90deg,
-            #424bb2 0%,
-            rgba(52, 134, 154, 1) 53%,
-            rgba(60, 204, 175, 1) 100%) !important;
-    border: none;
-}
-
-.footer-text>a {
-    color: rgba(60, 204, 175, 1);
-}
-
-.footer-text>a:hover {
-    color: rgba(60, 204, 175, 1);
-}
-</style>
