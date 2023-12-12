@@ -7,16 +7,20 @@ import BaseLoader from "../../components/base/BaseLoader.vue";
 import PasswordResetIndicator from "../../components/password/PasswordResetIndicator.vue";
 
 import { ref } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 
 
 const error = ref(null)
 const email = ref(null)
 const password = ref(null)
 const loading = ref(false)
+const router = useRouter()
 
 const login = () => {
     loading.value = true;
     console.log(email.value, password.value, loading.value, "dataaaaaaaaaaaaaaaaaaaaa");
+    router.push({name: 'My Patients'})
+
 }
 
 

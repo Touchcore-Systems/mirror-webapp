@@ -30,6 +30,7 @@ const router = createRouter({
         },
         {
             path: "/mirror-webapp/my-patients",
+            name:'My Patients',
             component: MyPatients,
         },
         // {
