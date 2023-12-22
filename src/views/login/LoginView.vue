@@ -42,3 +42,12 @@ const login = () => {
 
     <PasswordResetIndicator />
 </template>
+<style scoped>
+h1,
+h2,
+h3 {
+    color: white;
+}
+</style>
+
+

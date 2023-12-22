@@ -29,4 +29,11 @@ const resetPassword = () => {
         <BaseLoader v-if="loading" />
     </BaseButton>
 </template>
+<style scoped>
+h1,
+h2,
+h3 {
+    color: white;
+}
+</style>
 

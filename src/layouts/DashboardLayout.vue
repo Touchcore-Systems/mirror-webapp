@@ -43,6 +43,12 @@ const firstName = ref("Roshni")
 const lastName = ref("V R")
 
 </script >
-<style >
+<style  >
+.content-body {
+    background: white;
+    color: #001737
+ 
+}
+
 
 </style>
