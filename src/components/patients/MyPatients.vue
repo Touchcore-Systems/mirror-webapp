@@ -1,11 +1,11 @@
 <script setup lang="jsx">
-import DeleteIcon from "../../assets/img/delete.svg";
-import DashboardLayout from "../../layouts/DashboardLayout.vue";
+import DeleteIcon from "@/assets/img/delete.svg";
+import DashboardLayout from "@/layouts/DashboardLayout.vue";
 import DataTable from "../datatable/DataTable.vue";
 import BaseButton from "../base/BaseButton.vue";
 
-import people from "../../utils/mockDataPeople.json";
-import car from "../../utils/mockDataCars.json";
+import people from "@/utils/mockDataPeople.json";
+import car from "@/utils/mockDataCars.json";
 
 import { h } from "vue";
 import { format } from "date-fns";
@@ -85,6 +85,7 @@ const columnsPeople = [
   {
     id: "actions",
     header: " ",
+    enableSorting: false,
     cell: ({ row }) => {
       return (
         <div className="action-buttons">
@@ -99,10 +100,11 @@ const columnsPeople = [
   {
     id: "delete",
     header: " ",
+    enableSorting: false,
     cell: ({ row }) => {
       return (
         <div class="delete-wrapper">
-         { false && <img  class="delete-icon" src={DeleteIcon} onclick="" />}
+          {false && <img class="delete-icon" src={DeleteIcon} onclick="" />}
         </div>
       );
     },
@@ -152,7 +154,7 @@ const columnsCars = [
 
 <template>
   <DashboardLayout>
-    <div  class="row row-xs mg-t-10" style="margin-left: 5px">
+    <div class="row row-xs mg-t-10" style="margin-left: 5px">
       <h4 class="mg-b-0">My Patients</h4>
 
       <!-- ##include dataTable.html({"root":"myPatients"}) -->

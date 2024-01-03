@@ -25,18 +25,14 @@ import {
 const data = ref(props.data);
 const currentPage = ref(1);
 
-// const sorting = ref(props.defaultSort ? [props.defaultSort] : []);
-const sorting = ref([]);
+const sorting = ref(props.defaultSort ? [props.defaultSort] : []);
 const filter = ref("");
-const rowSelection = ref({})
+const rowSelection = ref({});
 
 const table = useVueTable({
   data: data.value,
   columns: props.columns,
-  getCoreRowModel: getCoreRowModel(),
-  getPaginationRowModel: getPaginationRowModel(),
-  getSortedRowModel: getSortedRowModel(),
-  getFilteredRowModel: getFilteredRowModel(),
+
   state: {
     get sorting() {
       return sorting.value;
@@ -44,22 +40,41 @@ const table = useVueTable({
     get globalFilter() {
       return filter.value;
     },
-     get rowSelection() {
-      return rowSelection.value
+    get rowSelection() {
+      return rowSelection.value;
     },
   },
+
   enableRowSelection: true,
-    onRowSelectionChange: updateOrValue => {
-      console.log(rowSelection.value);
+  enableMultiRowSelection: false,
+
+  getCoreRowModel: getCoreRowModel(),
+  getPaginationRowModel: getPaginationRowModel(),
+  getSortedRowModel: getSortedRowModel(),
+  getFilteredRowModel: getFilteredRowModel(),
+
+  onRowSelectionChange: (updateOrValue) => {
     rowSelection.value =
-      typeof updateOrValue === 'function'
+      typeof updateOrValue === "function"
         ? updateOrValue(rowSelection.value)
-        : updateOrValue
+        : updateOrValue;
   },
+  
   onSortingChange: (updaterOrValue) => {
     sorting.value =
       typeof updaterOrValue === "function"
         ? updaterOrValue(sorting.value)
+        : updaterOrValue;
+
+    //reseting pagination
+    table.setPageIndex(1);
+    currentPage.value = 1;
+  },
+
+  onGlobalFilterChange: (updaterOrValue) => {
+    filter.value =
+      typeof updaterOrValue === "function"
+        ? updaterOrValue(filter.value)
         : updaterOrValue;
 
     //reseting pagination
@@ -74,11 +89,11 @@ const table = useVueTable({
   },
 });
 
-
 const getStartIndex = computed(() => {
   const { pageIndex, pageSize } = table.getState().pagination;
   return pageIndex + 1 === 1 ? pageIndex + 1 : pageIndex * pageSize + 1;
 });
+
 const getEndIndex = computed(() => {
   const { pageIndex, pageSize } = table.getState().pagination;
 
@@ -89,26 +104,27 @@ const getEndIndex = computed(() => {
 });
 
 const paginateNav = (page) => {
-  currentPage.value = page;
-  table.setPageIndex(page - 1);
+    currentPage.value = page;
+    table.setPageIndex(page - 1);
 };
+
+
 const paginateNext = () => {
-  if (table.getCanNextPage()) {
-    currentPage.value = currentPage.value + 1;
-    table.nextPage();
-  }
+    if (table.getCanNextPage()) {
+      currentPage.value = currentPage.value + 1;
+      table.nextPage();
+    }
 };
 
 const paginatePrev = () => {
-  if (table.getCanPreviousPage()) {
-    currentPage.value = currentPage.value - 1;
-    table.previousPage();
-  }
+    if (table.getCanPreviousPage()) {
+      currentPage.value = currentPage.value - 1;
+      table.previousPage();
+    }
 };
 </script>
 
 <template>
-  <DataCheckbox />
   <div class="dataTables_wrapper no-footer">
     <div class="row">
       <div class="col-sm-12 col-md-6"></div>
@@ -123,10 +139,6 @@ const paginatePrev = () => {
               v-model="filter"
             />
           </label>
-
-          <!-- <button title="Add" class="pull-right btn btn-primary btn-icon btn-add-record" data-toggle="modal">
-            <i class="fa fa-plus"></i>
-          </button> -->
 
           <BaseButton title="Add" variant="add">
             <i class="fa fa-plus"></i>
@@ -144,8 +156,10 @@ const paginatePrev = () => {
               v-for="headerGroup in table.getHeaderGroups()"
               :key="headerGroup.id"
             >
+            {{console.log(headerGroup,"headerGroup")}}
               <!-- need to add class  class=sorting_disabled,sorting_asc,sorting_desc -->
               <th
+              class="sorting"
                 v-for="header in headerGroup.headers"
                 :key="header.id"
                 scope="col"
@@ -154,6 +168,7 @@ const paginatePrev = () => {
                 colspan="1"
                 aria-label=""
               >
+                {{console.log(header,"header")}}
                 <FlexRender
                   :render="header.column.columnDef.header"
                   :props="header.getContext()"

@@ -1,19 +1,18 @@
 
 <script setup >
-import { ref, onMounted, useAttrs, toRefs } from 'vue'
+import { ref, onMounted, useAttrs, toRefs } from "vue";
 
 const props = defineProps({
   indeterminate: Boolean,
-  className: String
-})
+  className: String,
+});
 
-const { indeterminate, className } = toRefs(props)
+const { indeterminate, className } = toRefs(props);
 
-const inputRef = ref(null)
+const inputRef = ref(null);
 </script>
 
 <template>
-
   <input
     type="checkbox"
     ref="inputRef"
@@ -21,5 +20,4 @@ const inputRef = ref(null)
     :indeterminate="indeterminate"
     v-bind="$attrs"
   />
-
 </template>
