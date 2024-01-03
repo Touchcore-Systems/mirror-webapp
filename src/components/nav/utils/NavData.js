@@ -58,7 +58,7 @@ export const adminNavlist = [
 ]
 export const providerNavlist = [
     {
-        href: "my-patients.html?provider_id=' + user_id",
+        href: "my-patients",
         name: 'My Patients',
         id: 'patientsList',
         icon: {
@@ -67,7 +67,7 @@ export const providerNavlist = [
         }
     },
     {
-        href: "assessments.html",
+        href: "assessments",
         name: 'Assessment Library',
         id: 'assessmentLibraryList',
         icon: {
@@ -76,7 +76,7 @@ export const providerNavlist = [
         }
     },
     {
-        href: "reports.html",
+        href: "reports",
         name: 'Reports',
         id: 'reportList',
         icon: {

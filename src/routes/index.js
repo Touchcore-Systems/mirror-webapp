@@ -34,6 +34,16 @@ const router = createRouter({
             component: MyPatients,
         },
         // {
+        //     path: "/mirror-webapp/assessments",
+        //     name:'My Patients',
+        //     component: aSSESSMENTS,
+        // },
+        // {
+        //     path: "/mirror-webapp/reports",
+        //     name:'My Patients',
+        //     component: ,
+        // },
+        // {
         //     path: "/mirror-webapp/dashboard",
         //     component: DashboardLayout,
         //     children:[
