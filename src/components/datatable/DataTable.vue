@@ -24,10 +24,14 @@ import {
 
 const data = ref(props.data);
 const currentPage = ref(1);
-
 const sorting = ref(props.defaultSort ? [props.defaultSort] : []);
 const filter = ref("");
 const rowSelection = ref({});
+
+const resetPagination = () => {
+  table.setPageIndex(0);
+  currentPage.value = 1;
+};
 
 const table = useVueTable({
   data: data.value,
@@ -38,12 +42,24 @@ const table = useVueTable({
       return sorting.value;
     },
     get globalFilter() {
+      // need to find a way to erset pagination along with filtering
+
+      // if (filter.value != "") {
+      //   table.setPageIndex(0);
+      //   currentPage.value = 1;
+      // }
+
       return filter.value;
     },
     get rowSelection() {
       return rowSelection.value;
     },
   },
+
+  // need to find a way to default sort with page load itself
+
+  // disableSortRemove: true,
+  // defaultCanSort: true,
 
   enableRowSelection: true,
   enableMultiRowSelection: false,
@@ -59,27 +75,14 @@ const table = useVueTable({
         ? updateOrValue(rowSelection.value)
         : updateOrValue;
   },
-  
+
   onSortingChange: (updaterOrValue) => {
     sorting.value =
       typeof updaterOrValue === "function"
         ? updaterOrValue(sorting.value)
         : updaterOrValue;
 
-    //reseting pagination
-    table.setPageIndex(1);
-    currentPage.value = 1;
-  },
-
-  onGlobalFilterChange: (updaterOrValue) => {
-    filter.value =
-      typeof updaterOrValue === "function"
-        ? updaterOrValue(filter.value)
-        : updaterOrValue;
-
-    //reseting pagination
-    table.setPageIndex(1);
-    currentPage.value = 1;
+    resetPagination();
   },
 
   initialState: {
@@ -104,23 +107,22 @@ const getEndIndex = computed(() => {
 });
 
 const paginateNav = (page) => {
-    currentPage.value = page;
-    table.setPageIndex(page - 1);
+  currentPage.value = page;
+  table.setPageIndex(page - 1);
 };
 
-
 const paginateNext = () => {
-    if (table.getCanNextPage()) {
-      currentPage.value = currentPage.value + 1;
-      table.nextPage();
-    }
+  if (table.getCanNextPage()) {
+    currentPage.value = currentPage.value + 1;
+    table.nextPage();
+  }
 };
 
 const paginatePrev = () => {
-    if (table.getCanPreviousPage()) {
-      currentPage.value = currentPage.value - 1;
-      table.previousPage();
-    }
+  if (table.getCanPreviousPage()) {
+    currentPage.value = currentPage.value - 1;
+    table.previousPage();
+  }
 };
 </script>
 
@@ -156,10 +158,8 @@ const paginatePrev = () => {
               v-for="headerGroup in table.getHeaderGroups()"
               :key="headerGroup.id"
             >
-            {{console.log(headerGroup,"headerGroup")}}
               <!-- need to add class  class=sorting_disabled,sorting_asc,sorting_desc -->
               <th
-              class="sorting"
                 v-for="header in headerGroup.headers"
                 :key="header.id"
                 scope="col"
@@ -168,7 +168,6 @@ const paginatePrev = () => {
                 colspan="1"
                 aria-label=""
               >
-                {{console.log(header,"header")}}
                 <FlexRender
                   :render="header.column.columnDef.header"
                   :props="header.getContext()"
@@ -176,7 +175,6 @@ const paginatePrev = () => {
                 {{
                   { asc: " ↑", desc: "↓" }[header.column.getIsSorted()] || ""
                 }}
-                {{ console.log(header.column.getIsSorted()) }}
               </th>
             </tr>
           </thead>
@@ -189,7 +187,11 @@ const paginatePrev = () => {
               v-for="row in table.getRowModel().rows"
               :key="row.id"
             >
-              <td v-for="cell in row.getVisibleCells()" :key="cell.id">
+              <td
+                v-for="cell in row.getVisibleCells()"
+                :key="cell.id"
+                :class="cell.column.columnDef.meta?.cellClassName"
+              >
                 <FlexRender
                   :render="cell.column.columnDef.cell"
                   :props="cell.getContext()"
@@ -257,13 +259,35 @@ const paginatePrev = () => {
     </div>
   </div>
 </template>
-<style scoped>
-.disabled {
-  cursor: not-allowed !important;
+
+<style>
+.delete-wrapper {
+  padding: auto 0px;
 }
-.paginate_button {
-  user-select: none;
-  cursor: pointer;
+
+.delete-wrapper > div {
+  width: 12px;
+}
+
+.delete-icon {
+  display: none;
+}
+
+.action-buttons {
+  width: 170px;
+}
+
+.action-buttons .action-btn-container {
+  display: flex;
+  gap: 0.5rem;
+  min-width: 155px;
+}
+
+.action-buttons .btn.action-btn {
+  width: 70px;
+}
+.action-buttons .btn-primary:focus {
+  background: transparent;
+  border-color: #0168fa;
 }
 </style>
-  

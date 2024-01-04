@@ -4,7 +4,7 @@ import BaseHeading from "@/components/base/BaseHeading.vue";
 import BaseInput from "@/components/base/BaseInput.vue";
 import BaseButton from "@/components/base/BaseButton.vue";
 import BaseLoader from "@/components/base/BaseLoader.vue";
-import PasswordResetIndicator from "@/components/password/PasswordResetIndicator.vue";
+import PasswordResetIndicator from "./components/PasswordResetIndicator.vue";
 
 import { ref } from "vue";
 import { useRouter, useRoute } from "vue-router";

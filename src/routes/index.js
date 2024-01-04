@@ -1,11 +1,14 @@
 import { createRouter, createWebHistory } from "vue-router";
-import LoginView from '../views/login/LoginView.vue';
-import PasswordResetView from '../views/password/PasswordResetView.vue';
-import AuthLayout from '../layouts/AuthLayout.vue';
-import  DashboardLayout  from '../layouts/DashboardLayout.vue';
 
 
-import MyPatients from '../components/patients/MyPatients.vue';
+import LoginView from '@/views/login/LoginView.vue';
+import PasswordResetView from '@/views/password/PasswordResetView.vue';
+import MyPatients from '@/views/mypatients/MyPatients.vue';
+
+import AuthLayout from '@/layouts/AuthLayout.vue';
+import  DashboardLayout  from '@/layouts/DashboardLayout.vue';
+
+
 const router = createRouter({
     history: createWebHistory(),
     routes: [
