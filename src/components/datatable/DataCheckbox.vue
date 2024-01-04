@@ -5,10 +5,10 @@ import { ref, onMounted, useAttrs, toRefs } from "vue";
 const props = defineProps({
   indeterminate: Boolean,
   className: String,
+  checked:Boolean
 });
 
-const { indeterminate, className } = toRefs(props);
-
+const { indeterminate, className,checked } = toRefs(props);
 const inputRef = ref(null);
 </script>
 
@@ -16,6 +16,7 @@ const inputRef = ref(null);
   <input
     type="checkbox"
     ref="inputRef"
+    :checked="checked"
     :class="`${className}`"
     :indeterminate="indeterminate"
     v-bind="$attrs"

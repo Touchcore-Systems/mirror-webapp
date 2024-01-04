@@ -1,6 +1,4 @@
 <script setup lang="jsx">
-
-
 import DeleteIcon from "@/assets/img/delete.svg";
 import DataTable from "@/components/datatable/DataTable.vue";
 import BaseButton from "@/components/base/BaseButton.vue";
@@ -9,8 +7,19 @@ import DataCheckbox from "@/components/datatable/DataCheckbox.vue";
 import DashboardLayout from "@/layouts/DashboardLayout.vue";
 import people from "@/utils/mockDataPeople.json";
 
+import { ref } from "vue";
 import { h } from "vue";
 import { format } from "date-fns";
+
+const selectedRow = ref(null);
+const patientId = ref({});
+const mode = ref();
+
+const test = (patient) => {
+  mode.value = "Edit";
+  patientId.value = patient;
+  console.log(mode.value);
+};
 
 const MY_PATIENT_COLUMNS = [
   {
@@ -30,7 +39,6 @@ const MY_PATIENT_COLUMNS = [
       );
     },
   },
-
   {
     id: "firstName",
     accessorKey: "first_name",
@@ -59,17 +67,19 @@ const MY_PATIENT_COLUMNS = [
     id: "actions",
     header: " ",
     enableSorting: false,
-     meta: {
-      cellClassName: 'action-buttons'
+    meta: {
+      cellClassName: "action-buttons",
     },
     cell: ({ row }) => {
       return (
-        
-          <div className="action-btn-container">
-            <BaseButton variant={"action"}>Details</BaseButton>
-            <BaseButton variant={"action"}>Edit</BaseButton>
-          </div>
-       
+        <div className="action-btn-container">
+          <BaseButton variant={"action"} onClick={test}>
+            Details
+          </BaseButton>
+          <BaseButton variant={"action"} onClick={() => test(row.original)}>
+            Edit
+          </BaseButton>
+        </div>
       );
     },
   },
@@ -77,22 +87,29 @@ const MY_PATIENT_COLUMNS = [
     id: "delete",
     header: " ",
     enableSorting: false,
-     meta: {
-      cellClassName: 'delete-wrapper'
+    meta: {
+      cellClassName: "delete-wrapper",
     },
+
     cell: ({ row }) => {
+      if (selectedRow.value == row.id) {
+        patientId.value = row.original;
+        console.log(patientId.value, "patientId.value");
+      }
       return (
-       <div>
-          <img class="delete-icon" src={DeleteIcon} onclick=""    /> 
-       </div>
-       
+        <div>
+          {selectedRow.value == row.id && (
+            <img class="delete-icon" src={DeleteIcon} onclick="" />
+          )}
+        </div>
       );
     },
   },
-
 ];
 
-
+const showDeleteIcon = (rowId) => {
+  selectedRow.value = Object.keys(rowId)[0];
+};
 </script>
 
 <template>
@@ -104,8 +121,8 @@ const MY_PATIENT_COLUMNS = [
         :data="people"
         :columns="MY_PATIENT_COLUMNS"
         :defaultSort="{ id: 'firstName', asc: true }"
+        @onrowSelected="showDeleteIcon"
       />
-
     </div>
   </DashboardLayout>
 </template>

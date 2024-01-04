@@ -27,12 +27,11 @@ const currentPage = ref(1);
 const sorting = ref(props.defaultSort ? [props.defaultSort] : []);
 const filter = ref("");
 const rowSelection = ref({});
-
+const emit = defineEmits(["onrowSelected"]);
 const resetPagination = () => {
   table.setPageIndex(0);
   currentPage.value = 1;
 };
-
 const table = useVueTable({
   data: data.value,
   columns: props.columns,
@@ -63,7 +62,7 @@ const table = useVueTable({
 
   enableRowSelection: true,
   enableMultiRowSelection: false,
-
+  sortDescFirst: true,
   getCoreRowModel: getCoreRowModel(),
   getPaginationRowModel: getPaginationRowModel(),
   getSortedRowModel: getSortedRowModel(),
@@ -74,6 +73,8 @@ const table = useVueTable({
       typeof updateOrValue === "function"
         ? updateOrValue(rowSelection.value)
         : updateOrValue;
+       emit('onrowSelected',table.getState().rowSelection)
+
   },
 
   onSortingChange: (updaterOrValue) => {
@@ -84,7 +85,6 @@ const table = useVueTable({
 
     resetPagination();
   },
-
   initialState: {
     pagination: {
       pageSize: 10,
@@ -124,6 +124,8 @@ const paginatePrev = () => {
     table.previousPage();
   }
 };
+
+
 </script>
 
 <template>
@@ -167,31 +169,52 @@ const paginatePrev = () => {
                 rowspan="1"
                 colspan="1"
                 aria-label=""
+                :class="{
+                  sorting_asc: header.column.getIsSorted() === 'asc',
+                  sorting_desc: header.column.getIsSorted() === 'desc',
+                  sorting_disabled: header.column.getIsSorted() === false,
+                }"
               >
                 <FlexRender
                   :render="header.column.columnDef.header"
                   :props="header.getContext()"
                 />
+             
                 {{
-                  { asc: " ↑", desc: "↓" }[header.column.getIsSorted()] || ""
+                  header.column.getCanSort()
+                    ? { asc: "↑", desc: "↓", false: "↑↓" }[
+                        header.column.getIsSorted()
+                      ]
+                    : ""
                 }}
               </th>
             </tr>
           </thead>
 
           <tbody>
-            <!-- add class odd even -->
             <tr
               role="row"
-              class="odd"
+              :class="{
+                  odd: row.id % 2 ==0,
+                  even: row.id % 2 !==0,
+                  
+                }"
               v-for="row in table.getRowModel().rows"
               :key="row.id"
             >
               <td
                 v-for="cell in row.getVisibleCells()"
                 :key="cell.id"
-                :class="cell.column.columnDef.meta?.cellClassName"
+                :class="[
+                  cell.column.columnDef.meta?.cellClassName || '',
+                  {
+                    sorting_1:
+                      cell.column.getIsSorted() === 'asc' ||
+                      cell.column.getIsSorted() === 'desc',
+                  },
+                ]"
               >
+             
                 <FlexRender
                   :render="cell.column.columnDef.cell"
                   :props="cell.getContext()"
@@ -269,9 +292,9 @@ const paginatePrev = () => {
   width: 12px;
 }
 
-.delete-icon {
+/* .delete-icon {
   display: none;
-}
+} */
 
 .action-buttons {
   width: 170px;
