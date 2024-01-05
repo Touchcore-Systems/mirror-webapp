@@ -22,12 +22,14 @@ import {
   getFilteredRowModel,
 } from "@tanstack/vue-table";
 
+
+
 const data = ref(props.data);
 const currentPage = ref(1);
 const sorting = ref(props.defaultSort ? [props.defaultSort] : []);
 const filter = ref("");
 const rowSelection = ref({});
-const emit = defineEmits(["onrowSelected"]);
+const emit = defineEmits(["onrowSelected",'addBtnClicked']);
 const resetPagination = () => {
   table.setPageIndex(0);
   currentPage.value = 1;
@@ -144,7 +146,7 @@ const paginatePrev = () => {
             />
           </label>
 
-          <BaseButton title="Add" variant="add">
+          <BaseButton title="Add" variant="add" @handleClick="emit('addBtnClicked')">
             <i class="fa fa-plus"></i>
           </BaseButton>
         </div>

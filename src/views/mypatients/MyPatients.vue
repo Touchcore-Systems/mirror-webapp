@@ -15,9 +15,14 @@ const selectedRow = ref(null);
 const patientId = ref({});
 const mode = ref();
 
-const test = (patient) => {
-  mode.value = "Edit";
+const handleEdit = (patient) => {
+  mode.value = "Edit Patient";
   patientId.value = patient;
+  console.log(mode.value);
+};
+
+const handleAdd = (patient) => {
+  mode.value='Add Patient'
   console.log(mode.value);
 };
 
@@ -73,10 +78,10 @@ const MY_PATIENT_COLUMNS = [
     cell: ({ row }) => {
       return (
         <div className="action-btn-container">
-          <BaseButton variant={"action"} onClick={test}>
+          <BaseButton variant={"action"}  >
             Details
           </BaseButton>
-          <BaseButton variant={"action"} onClick={() => test(row.original)}>
+          <BaseButton variant={"action"} onClick={() => handleEdit(row.original)}>
             Edit
           </BaseButton>
         </div>
@@ -92,20 +97,21 @@ const MY_PATIENT_COLUMNS = [
     },
 
     cell: ({ row }) => {
-      if (selectedRow.value == row.id) {
-        patientId.value = row.original;
-        console.log(patientId.value, "patientId.value");
-      }
       return (
         <div>
           {selectedRow.value == row.id && (
-            <img class="delete-icon" src={DeleteIcon} onclick="" />
+            <img class="delete-icon" src={DeleteIcon} onClick={() => handleDelete(row.original)} />
           )}
         </div>
       );
     },
   },
 ];
+
+const handleDelete = (patient) => {
+  patientId.value = patient;
+  console.log(patientId.value, "patientId.value");
+};
 
 const showDeleteIcon = (rowId) => {
   selectedRow.value = Object.keys(rowId)[0];
@@ -122,6 +128,7 @@ const showDeleteIcon = (rowId) => {
         :columns="MY_PATIENT_COLUMNS"
         :defaultSort="{ id: 'firstName', asc: true }"
         @onrowSelected="showDeleteIcon"
+        @addBtnClicked="handleAdd"
       />
     </div>
   </DashboardLayout>
