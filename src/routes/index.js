@@ -4,7 +4,8 @@ import { createRouter, createWebHistory } from "vue-router";
 import LoginView from '@/views/login/LoginView.vue';
 import PasswordResetView from '@/views/password/PasswordResetView.vue';
 import MyPatientsView from '@/views/mypatients/MyPatientsView.vue';
-import AssessmentView from '../views/assessments/AssessmentView.vue';
+import AssessmentView from '@/views/assessments/AssessmentView.vue';
+import ReportView from '@/views/reports/ReportView.vue';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import  DashboardLayout  from '@/layouts/DashboardLayout.vue';
 
@@ -39,13 +40,21 @@ const router = createRouter({
                 {
                     path:'/my-patients',
                     name:'My Patients',
-                    component:MyPatientsView
+                    component:MyPatientsView,
+                    meta: { header:'My Patients' },
                 },
                 {
                     path: "/assessments",
                     name:'Assessments',
-                    component:AssessmentView
-                  
+                    component:AssessmentView,
+                    meta: { header:'Assessment Library'},
+        
+                },
+                {
+                    path: "/reports",
+                    name:'Reports',
+                    component:ReportView,
+                    meta: { header:'REPORTS'},
         
                 },
 

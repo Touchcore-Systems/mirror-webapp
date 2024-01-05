@@ -8,9 +8,10 @@ import DashboardLayout from "@/layouts/DashboardLayout.vue";
 import people from "@/utils/mockDataPeople.json";
 
 import { ref } from "vue";
-import { h } from "vue";
-import { format } from "date-fns";
+import { useRoute } from "vue-router";
 
+import { format } from "date-fns";
+const route = useRoute();
 const selectedRow = ref(null);
 const patientId = ref({});
 const mode = ref();
@@ -120,8 +121,7 @@ const showDeleteIcon = (rowId) => {
 
 <template>
     <div class="row row-xs mg-t-10" style="margin-left: 5px">
-      <h4 class="mg-b-0">My Patients</h4>
-
+      <h4 class="mg-b-0"> {{route.meta.header}}</h4>
       <DataTable
         :data="people"
         :columns="MY_PATIENT_COLUMNS"

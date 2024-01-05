@@ -27,10 +27,11 @@ const { navList } = defineProps(["navList"]);
 
 const route = useRoute();
 const router = useRouter();
-route.name;
 
 //deciding the active
 const aciveTab = computed(() => navList.name === route.name);
+
+
 </script>
 <style scoped>
 .nav-item {
