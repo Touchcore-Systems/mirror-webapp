@@ -58,7 +58,7 @@ export const adminNavlist = [
 ]
 export const providerNavlist = [
     {
-        href: "my-patients",
+        href: "/my-patients",
         name: 'My Patients',
         id: 'patientsList',
         icon: {
@@ -67,8 +67,8 @@ export const providerNavlist = [
         }
     },
     {
-        href: "assessments",
-        name: 'Assessment Library',
+        href: "/assessments",
+        name: 'Assessments',
         id: 'assessmentLibraryList',
         icon: {
             vueFeather: true,

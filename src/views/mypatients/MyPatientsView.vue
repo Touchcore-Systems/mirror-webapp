@@ -119,7 +119,6 @@ const showDeleteIcon = (rowId) => {
 </script>
 
 <template>
-  <DashboardLayout>
     <div class="row row-xs mg-t-10" style="margin-left: 5px">
       <h4 class="mg-b-0">My Patients</h4>
 
@@ -131,5 +130,4 @@ const showDeleteIcon = (rowId) => {
         @addBtnClicked="handleAdd"
       />
     </div>
-  </DashboardLayout>
 </template>

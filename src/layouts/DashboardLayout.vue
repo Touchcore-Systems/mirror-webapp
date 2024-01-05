@@ -16,7 +16,8 @@
 
 
                 <!-- active section -->
-                <slot />
+                <!-- <slot /> -->
+                 <router-view/>
                
             </div>
 

@@ -3,18 +3,18 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import LoginView from '@/views/login/LoginView.vue';
 import PasswordResetView from '@/views/password/PasswordResetView.vue';
-import MyPatients from '@/views/mypatients/MyPatients.vue';
-
+import MyPatientsView from '@/views/mypatients/MyPatientsView.vue';
+import AssessmentView from '../views/assessments/AssessmentView.vue';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import  DashboardLayout  from '@/layouts/DashboardLayout.vue';
 
 
 const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
         {
             // path: "/",
-            path: "/mirror-webapp",
+            path: "",
             component: AuthLayout,
             children:[
                 {
@@ -32,9 +32,24 @@ const router = createRouter({
             ]
         },
         {
-            path: "/mirror-webapp/my-patients",
-            name:'My Patients',
-            component: MyPatients,
+            path: "/",
+            name:'Dashboard',
+            component: DashboardLayout,
+            children:[
+                {
+                    path:'/my-patients',
+                    name:'My Patients',
+                    component:MyPatientsView
+                },
+                {
+                    path: "/assessments",
+                    name:'Assessments',
+                    component:AssessmentView
+                  
+        
+                },
+
+            ]
         },
         // {
         //     path: "/mirror-webapp/assessments",
