@@ -146,7 +146,7 @@ const paginatePrev = () => {
             />
           </label>
 
-          <BaseButton title="Add" variant="add" @handleClick="emit('addBtnClicked')">
+          <BaseButton title="Add" variant="add" @handleClick="emit('addBtnClicked')" data-bs-toggle="modal">
             <i class="fa fa-plus"></i>
           </BaseButton>
         </div>

@@ -13,7 +13,6 @@
 </template>
 <script setup>
 import { computed } from "vue";
-
 const { loading, type, variant } = defineProps(["loading", "type", "variant"]);
 const emit = defineEmits(["handleClick"]);
 
@@ -33,6 +32,15 @@ const styles = computed(() => {
       break;
     case "add":
       return "pull-right btn btn-primary btn-icon btn-add-record";
+      break;
+    case "close":
+      return "close ";
+      break;
+    case "modal-btn-primary":
+      return " btn-primary tx-13 ";
+      break;
+    case "modal-btn-secondary":
+      return "btn-secondary tx-13";
       break;
     default:
       return "gradient-bg btn-info btn-block";
