@@ -8,6 +8,7 @@ import PasswordResetIndicator from "./components/PasswordResetIndicator.vue";
 
 import { ref } from "vue";
 import { useRouter, useRoute } from "vue-router";
+import AJAX from "../../utils/ajax/Ajax";
 
 const error = ref(null);
 const email = ref(null);
@@ -15,15 +16,28 @@ const password = ref(null);
 const loading = ref(false);
 const router = useRouter();
 
-const login = () => {
-  loading.value = true;
-  console.log(
-    email.value,
-    password.value,
-    loading.value,
-    "dataaaaaaaaaaaaaaaaaaaaa"
-  );
-  router.push({ name: "My Patients" });
+const login = async () => {
+  try {
+    loading.value = true;
+    console.log(
+      email.value,
+      password.value,
+      loading.value,
+      "dataaaaaaaaaaaaaaaaaaaaa"
+    );
+
+    // await AJAX("/default/call/json/authorize",'POST', {
+    //   email: email.value,
+    //   password: password.value,
+    // });
+  
+
+    router.push({ name: "My Patients" });
+  } catch (error) {
+    console.error(error, "from login");
+  } finally {
+    loading.value = false;
+  }
 };
 </script>
 <template>
