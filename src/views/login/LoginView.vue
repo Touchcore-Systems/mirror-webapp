@@ -30,11 +30,16 @@ const login = async () => {
     //   email: email.value,
     //   password: password.value,
     // });
-  
 
+    // await AJAX("/default/authorize",'POST',
+    // {
+    //   email: email.value,
+    //   password: password.value,
+    // }
+    // )
     router.push({ name: "My Patients" });
   } catch (error) {
-    console.error(error, "from login");
+    console.error(error.response.data, "from login");
   } finally {
     loading.value = false;
   }

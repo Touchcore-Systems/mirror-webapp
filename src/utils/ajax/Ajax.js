@@ -47,7 +47,7 @@ const AJAX = async (url, method = "GET", uploadData = undefined,additionalHeader
 
     } catch (error) {
 
-        console.error(error,'AJAX Error:');
+        console.error(error.response.data,'AJAX Error:');
         throw error
 
     }
