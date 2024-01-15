@@ -30,7 +30,6 @@ const router = useRouter();
 
 
 const dashboardHeader = computed(() => {
-    console.log(route.name );
   if (route.meta.header == "My Patients") {
       header.value = `Welcome ${firstName} `;
   }else{

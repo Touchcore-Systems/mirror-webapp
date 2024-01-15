@@ -6,7 +6,9 @@ import { APP_URL, BASE_URL } from "../config";
  const globalAxios=axios.create({
     baseURL: BASE_URL + APP_URL,
     headers:{
-        'Content-Type':'application/json'
+        'Accept': 'application/json, text/plain',
+        'Content-Type':'application/json',
+
     }
 })
 

@@ -9,13 +9,17 @@
     v-bind="$attrs"
   >
     <slot />
+    <span v-if="loading">
+      <BaseLoader />
+    </span>
   </button>
 </template>
 <script setup>
-import { computed } from "vue";
+import { computed, watch } from "vue";
+import BaseLoader from "@/components/base/BaseLoader.vue";
+
 const { loading, type, variant } = defineProps(["loading", "type", "variant"]);
 const emit = defineEmits(["handleClick"]);
-
 const styles = computed(() => {
   switch (variant) {
     case "primary":
@@ -74,5 +78,12 @@ const styles = computed(() => {
 .paginate_button {
   user-select: none;
   cursor: pointer;
+}
+
+.hide-loader {
+  display: none;
+}
+.hidden {
+  display: none;
 }
 </style>

@@ -1,12 +1,12 @@
 <script setup>
 import BaseError from "@/components/base/BaseError.vue";
+// import BaseError from "@/components/base/BaseError.vue";
 import BaseHeading from "@/components/base/BaseHeading.vue";
 import BaseInput from "@/components/base/BaseInput.vue";
 import BaseButton from "@/components/base/BaseButton.vue";
-import BaseLoader from "@/components/base/BaseLoader.vue";
 import PasswordResetIndicator from "./components/PasswordResetIndicator.vue";
 
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import AJAX from "../../utils/ajax/Ajax";
 
@@ -14,40 +14,32 @@ const error = ref(null);
 const email = ref(null);
 const password = ref(null);
 const loading = ref(false);
+const user = ref(null);
 const router = useRouter();
 
 const login = async () => {
   try {
     loading.value = true;
-    console.log(
-      email.value,
-      password.value,
-      loading.value,
-      "dataaaaaaaaaaaaaaaaaaaaa"
-    );
+    error.value = null;
 
-    // await AJAX("/default/call/json/authorize",'POST', {
-    //   email: email.value,
-    //   password: password.value,
-    // });
+    const data = await AJAX("/default/call/json/authorize", "POST", {
+      email: email.value,
+      password: password.value,
+    });
 
-    // await AJAX("/default/authorize",'POST',
-    // {
-    //   email: email.value,
-    //   password: password.value,
-    // }
-    // )
+    user.value = data;
     router.push({ name: "My Patients" });
-  } catch (error) {
-    console.error(error.response.data, "from login");
+  } catch (e) {
+    error.value = e;
   } finally {
     loading.value = false;
   }
 };
+
 </script>
 <template>
-  <BaseError v-if="error" :error="error" />
   <BaseHeading heading="Sign In" />
+  <BaseError v-show="error" :error="error" />
 
   <BaseInput
     v-model="email"
@@ -62,9 +54,10 @@ const login = async () => {
     label="Password"
   />
 
-  <BaseButton @handleClick="login" type="button" :loading="loading"
+  <BaseButton @handle-click="login" type="button" :loading="loading"
     >Sign In
-    <BaseLoader v-if="loading" />
+
+    <!-- <BaseLoader v-if="loading" /> -->
   </BaseButton>
 
   <PasswordResetIndicator />

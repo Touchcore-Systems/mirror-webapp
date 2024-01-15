@@ -25,7 +25,7 @@ const timeout = function (s) {
 //   }
 
 
-const AJAX = async (url, method = "GET", uploadData = undefined,additionalHeaders=undefined) => {
+const AJAX = async (url, method = "GET", uploadData = undefined, additionalHeaders = undefined) => {
     try {
         const axiosConfig = {
             method,
@@ -36,19 +36,22 @@ const AJAX = async (url, method = "GET", uploadData = undefined,additionalHeader
             axiosConfig.data = uploadData;
         }
 
-        if(additionalHeaders){
-            axiosConfig.headers = { ...globalAxios.defaults.headers.common, ...additionalHeaders };  
+        if (additionalHeaders) {
+            axiosConfig.headers = { ...globalAxios.defaults.headers.common, ...additionalHeaders };
         }
 
 
         const { data } = await globalAxios(axiosConfig)
-        console.log(data,`data from ${globalAxios.defaults.baseURL + url}`);
+        console.log(data, `data from ${globalAxios.defaults.baseURL + url}`);
         return data
 
     } catch (error) {
+        
+        const err = error.response && error.response.data ?
+            error.response.data : "Something went wrong"
+        console.log(err, `error from ${globalAxios.defaults.baseURL + url}`);
 
-        console.error(error.response.data,'AJAX Error:');
-        throw error
+        throw err
 
     }
 

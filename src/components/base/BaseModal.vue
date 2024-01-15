@@ -74,7 +74,6 @@ const { showModal, submitType } = defineProps({
   },
 });
 
-console.log(showModal, submitType, "showModalshowModal");
 const emit = defineEmits(["closeClick", "submitClick"]);
 
 onMounted(() => {
