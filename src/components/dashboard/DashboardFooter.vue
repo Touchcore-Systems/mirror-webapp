@@ -12,3 +12,15 @@
     </p>
   </footer>
 </template>
+
+
+<script setup>
+import { onMounted } from "vue";
+import { initConnection } from "@/services/settings";
+
+onMounted(() => {
+  initConnection();
+});
+
+</script>
+

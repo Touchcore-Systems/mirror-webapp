@@ -127,7 +127,6 @@ const paginatePrev = () => {
   }
 };
 
-
 </script>
 
 <template>

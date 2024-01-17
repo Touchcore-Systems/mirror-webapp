@@ -46,7 +46,7 @@ const AJAX = async (url, method = "GET", uploadData = undefined, additionalHeade
         return data
 
     } catch (error) {
-        
+        console.log(error);
         const err = error.response && error.response.data ?
             error.response.data : "Something went wrong"
         console.log(err, `error from ${globalAxios.defaults.baseURL + url}`);

@@ -1,15 +1,12 @@
 <script setup>
 import { onMounted } from "vue";
+import { initConnection } from "@/services/settings";
+
 
 onMounted(() => {
-  document.getElementById("year")
-    ? (document.getElementById("year").innerHTML = new Date().getFullYear())
-    : true;
-  document.getElementById("backendVersion")
-    ? (document.getElementById("backendVersion").innerHTML =
-        localStorage.getItem("backendVersion"))
-    : true;
+  initConnection();
 });
+
 </script>
 
 <template>
