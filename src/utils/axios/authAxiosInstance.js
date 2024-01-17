@@ -3,7 +3,12 @@ import { APP_URL, BASE_URL } from "../config";
 import { getfromLocalstorage } from "../../services/helpers";
 
 const authAxios=axios.create({
-    baseURL: BASE_URL + APP_URL
+    baseURL: BASE_URL + APP_URL,
+    headers:{
+        'Accept': 'application/json, text/plain',
+        'Content-Type':'application/json',
+
+    }
 })
 
 
@@ -13,7 +18,10 @@ authAxios.interceptors.request.use(
         const authToken = getfromLocalstorage('auth_token');
         if (authToken) {
             config.headers.Authorization = `Bearer ${authToken}`;
-        }
+        }else {
+            // If no token, reject the request
+            throw new Error("Authentication required. Please log in.");
+          }
         return config;
     },
     (error) => {

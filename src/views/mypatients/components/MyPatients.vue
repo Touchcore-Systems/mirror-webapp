@@ -13,7 +13,7 @@ import { ref, computed, onMounted } from "vue";
 import { format } from "date-fns";
 import { getfromLocalstorage } from "@/services/helpers";
 import authAJAX from "../../../utils/ajax/authAjax.js";
-import { getAllpatients } from "../../../services/provider/dashboard/index.js";
+import { getAllpatients,editOrDeletePatient } from "@/services/provider/dashboard/index.js";
 
 const selectedRow = ref(null);
 const myallPatients = ref([]);
@@ -28,19 +28,22 @@ const patient = ref({
 const handleGetallPatients = async () => {
   try {
     myallPatients.value = await getAllpatients();
-    console.log(myallPatients.value);
-  } catch (error) {}
+  } catch (error) {
+
+  }
 };
 
 onMounted( () => {
    handleGetallPatients();
 });
 
-const handleAddEdit = (patient, type) => {
+const handleAddEdit = (patientDetails, type) => {
   typeofModal.value = `${type} Patient`;
   showModal.value = true;
-  patientId.value = patient;
+  patientId.value = patientDetails;
+  // patient.value=patientDetails
   document.body.classList.add("modal-open");
+  console.log(patient.value,"patient");
 };
 
 const handleDelete = (patient) => {
@@ -60,11 +63,11 @@ const handleSubmit = () => {
       handleClose();
       break;
     case "Edit Patient":
-      console.log("Patient Edited");
+      // editOrDeletePatient(true,patient)
       handleClose();
       break;
     case "Delete Patient":
-      console.log("Patient Deleted");
+      // editOrDeletePatient(false,patient)
       handleClose();
       break;
     default:
@@ -199,7 +202,7 @@ const modalStyle = computed(() =>
     @addBtnClicked="() => handleAddEdit(null, 'Add')"
   />
 
-  <BaseProgressLoader/>
+  <BaseProgressLoader v-else/>
 
   <BaseModal
     :centered="modalStyle"

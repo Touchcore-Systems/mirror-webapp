@@ -4,7 +4,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import LoginView from '@/views/login/LoginView.vue';
 import PasswordResetView from '@/views/password/PasswordResetView.vue';
 import MyPatientsView from '@/views/mypatients/MyPatientsView.vue';
-import AssessmentView from '@/views/assessments/AssessmentView.vue';
+import AllAssessmentsView from '@/views/assessments/AllAssessmentsView.vue';
 import ReportView from '@/views/reports/ReportView.vue';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import DashboardLayout from '@/layouts/DashboardLayout.vue';
@@ -61,7 +61,7 @@ const router = createRouter({
                 {
                     path: "/assessments",
                     name: 'Assessments',
-                    component: AssessmentView,
+                    component: AllAssessmentsView,
                     meta: {
                         header: 'Assessment Library',
                         title: 'Assessment Library',

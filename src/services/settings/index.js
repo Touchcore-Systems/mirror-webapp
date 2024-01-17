@@ -12,9 +12,10 @@ export const initConnection = async () => {
         const backendVersionElement = document.getElementById("backendVersion");
             if (backendVersionElement) {
                 backendVersionElement.innerHTML = getfromLocalstorage("backendVersion");
-            } else {
-                console.error("Element with ID 'backendVersion' not found.");
-            }
+            } 
+            // else {
+            //     console.error("Element with ID 'backendVersion' not found.");
+            // }
     } catch (error) {
         console.log(error);
     }

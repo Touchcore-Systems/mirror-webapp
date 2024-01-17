@@ -13,6 +13,5 @@ import { APP_URL, BASE_URL } from "../config";
 })
 
 
-
 export default globalAxios
 
