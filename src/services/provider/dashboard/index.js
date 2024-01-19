@@ -1,4 +1,4 @@
-import authAJAX from "../../../utils/ajax/authAjax";
+import authAxios from "../../../utils/axios/authAxios";
 import { getfromLocalstorage } from "../../helpers";
 
 const extractProviderId = () => {
@@ -11,7 +11,7 @@ const extractProviderId = () => {
 }
 
 export const getAllpatients = async () => {
-    const data = await authAJAX(`/default/call/json/getPatients?providerId=${extractProviderId()}`)
+    const data = await authAxios(`/default/call/json/getPatients?providerId=${extractProviderId()}`)
     return data.allPatients
 }
 
@@ -44,7 +44,7 @@ export const editOrDeletePatient = async (edit = true, patient) => {
     }
 
 
-    const data = await authAJAX(`/default/call/json/editPatient`, "POST", patient)
+    const data = await authAxios(`/default/call/json/editPatient`, "POST", patient)
     return data
 
 }
@@ -54,7 +54,7 @@ export const editOrDeletePatient = async (edit = true, patient) => {
 
 export const getAllAssessments = async () => {
 
-    const data = await authAJAX(`/default/call/json/getAllAssessments`, "POST")
+    const data = await authAxios(`/default/call/json/getAllAssessments`, "POST")
     return data.allAssessments
 
 }

@@ -7,9 +7,9 @@
 //           return Promise.reject(error);
 //       }
 //   );
-import authAxios from '../axios/authAxiosInstance';
+import authAxiosInstance from './authAxiosInstance';
 
-const authAJAX = async (url, method = "GET", uploadData = undefined, additionalHeaders = undefined) => {
+const authAxios = async (url, method = "GET", uploadData = undefined, additionalHeaders = undefined) => {
     try {
         const axiosConfig = {
             method,
@@ -21,19 +21,19 @@ const authAJAX = async (url, method = "GET", uploadData = undefined, additionalH
         }
 
         if (additionalHeaders) {
-            axiosConfig.headers = { ...authAxios.defaults.headers.common, ...additionalHeaders };
+            axiosConfig.headers = { ...authAxiosInstance.defaults.headers.common, ...additionalHeaders };
         }
 
 
-        const { data } = await authAxios(axiosConfig)
-        console.log(data, `data from ${authAxios.defaults.baseURL + url}`);
+        const { data } = await authAxiosInstance(axiosConfig)
+        console.log(data, `data from ${authAxiosInstance.defaults.baseURL + url}`);
         return data
 
     } catch (error) {
         console.log(error);
         const err = error.response && error.response.data ?
             error.response.data : "Something went wrong"
-        console.log(err, `error from ${authAxios.defaults.baseURL + url}`);
+        console.log(err, `error from ${authAxiosInstance.defaults.baseURL + url}`);
 
         throw err
 
@@ -41,4 +41,4 @@ const authAJAX = async (url, method = "GET", uploadData = undefined, additionalH
 
 }
 
-export default authAJAX
+export default authAxios

@@ -12,7 +12,6 @@ import { BASE_URL, APP_URL } from "@/utils/config";
 import { ref, computed, onMounted } from "vue";
 import { format } from "date-fns";
 import { getfromLocalstorage } from "@/services/helpers";
-import authAJAX from "../../../utils/ajax/authAjax.js";
 import { getAllpatients,editOrDeletePatient } from "@/services/provider/dashboard/index.js";
 
 const selectedRow = ref(null);
