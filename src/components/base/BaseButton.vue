@@ -71,15 +71,14 @@ const styles = computed(() => {
   border-radius: 0.25rem;
   border-color: #0168fa;
 }
-
-.disabled {
+button[disabled]{
   cursor: not-allowed !important;
 }
+
 .paginate_button {
   user-select: none;
   cursor: pointer;
 }
-
 .hide-loader {
   display: none;
 }

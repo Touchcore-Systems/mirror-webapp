@@ -30,6 +30,7 @@ const ASSESSMENT_COLUMNS = [
     accessorKey: "type",
     header: "Type",
     cell: ({ row }) => {
+      //create map
       if (row.original.type == "functionalTest") {
         return "Functional Test";
       }
@@ -63,7 +64,3 @@ onMounted(() => {
 });
 
 </script>
-
-<style >
-
-</style>

@@ -1,5 +1,6 @@
 <script setup>
-import MyPatients from "./components/MyPatients.vue";
+// import MyPatients from "./components/MyPatients.vue";
+import MyPatients from "@/views/mypatients/components/MyPatients.vue";
 
 import { useRoute } from "vue-router";
 

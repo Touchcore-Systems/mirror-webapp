@@ -1,59 +1,47 @@
 <script setup lang="jsx">
 import axios from "axios";
+import { storeToRefs } from 'pinia'
+
 import DeleteIcon from "@/assets/img/delete.svg";
+
 import DataTable from "@/components/datatable/DataTable.vue";
 import BaseButton from "@/components/base/BaseButton.vue";
 import BaseInput from "@/components/base/BaseInput.vue";
 import BaseProgressLoader from "@/components/base/BaseProgressLoader.vue";
 import BaseModal from "@/components/base/BaseModal.vue";
 import DataCheckbox from "@/components/datatable/DataCheckbox.vue";
+
 import people from "@/utils/mockDataPeople.json";
 import { BASE_URL, APP_URL } from "@/utils/config";
+
 import { ref, computed, onMounted } from "vue";
-import { format } from "date-fns";
 import { getfromLocalstorage } from "@/services/helpers";
-import { getAllpatients,editOrDeletePatient } from "@/services/provider/dashboard/index.js";
+import {
+  getAllpatients,
+  editOrDeletePatient,
+} from "@/services/provider/dashboard";
+
+import { useModalStore } from "../../../store/modalStore.js";
 
 const selectedRow = ref(null);
 const myallPatients = ref([]);
-const patientId = ref({});
-const typeofModal = ref();
-const showModal = ref();
 const patientsRequireActiveSubscription = ref(false);
-const patient = ref({
-  height: {},
-});
+
+const store = useModalStore();
+const { showModal, modalStyle, patient, typeofModal } = storeToRefs(store);
+const { handleClose, handleAddEdit } = store;
 
 const handleGetallPatients = async () => {
   try {
     myallPatients.value = await getAllpatients();
   } catch (error) {
-
+    console.log(error);
   }
 };
 
-onMounted( () => {
-   handleGetallPatients();
+onMounted(() => {
+  handleGetallPatients();
 });
-
-const handleAddEdit = (patientDetails, type) => {
-  typeofModal.value = `${type} Patient`;
-  showModal.value = true;
-  patientId.value = patientDetails;
-  // patient.value=patientDetails
-  document.body.classList.add("modal-open");
-  console.log(patient.value,"patient");
-};
-
-const handleDelete = (patient) => {
-  handleAddEdit(patient, "Delete");
-};
-
-const handleClose = () => {
-  typeofModal.value = null;
-  showModal.value = false;
-  document.body.classList.remove("modal-open");
-};
 
 const handleSubmit = () => {
   switch (typeofModal.value) {
@@ -137,7 +125,7 @@ const MY_PATIENT_COLUMNS = [
           <BaseButton variant={"action"}>Details</BaseButton>
           <BaseButton
             variant={"action"}
-            onClick={() => handleAddEdit(row.original, "Edit")}
+            onClick={() => handleAddEdit(row.original, "Edit Patient")}
             data-bs-toggle="modal"
           >
             Edit
@@ -161,7 +149,7 @@ const MY_PATIENT_COLUMNS = [
             <img
               class="delete-icon"
               src={DeleteIcon}
-              onClick={() => handleDelete(row.original)}
+              onClick={() => handleAddEdit(row.original, "Delete Patient")}
               data-bs-toggle="modal"
             />
           )}
@@ -171,37 +159,22 @@ const MY_PATIENT_COLUMNS = [
   },
 ];
 
-console.log(MY_PATIENT_COLUMNS);
-
 const showDeleteIcon = (rowId) => {
   selectedRow.value = Object.keys(rowId)[0];
 };
 
-const modalStyle = computed(() =>
-  typeofModal.value == "Delete Patient" ? true : false
-);
-
-
 </script>
 <template>
-  <!-- <DataTable
-    :data="people"
-    :columns="MY_PATIENT_COLUMNS"
-    :defaultSort="{ id: 'firstName', asc: true }"
-    @onrowSelected="showDeleteIcon"
-    @addBtnClicked="() => handleAddEdit(null, 'Add')"
-  /> -->
-
   <DataTable
     v-if="myallPatients.length > 0"
     :data="myallPatients"
     :columns="MY_PATIENT_COLUMNS"
     :defaultSort="{ id: 'firstName', asc: true }"
     @onrowSelected="showDeleteIcon"
-    @addBtnClicked="() => handleAddEdit(null, 'Add')"
+    @addBtnClicked="() => handleAddEdit(null, 'Add Patient')"
   />
 
-  <BaseProgressLoader v-else/>
+  <BaseProgressLoader v-else />
 
   <BaseModal
     :centered="modalStyle"

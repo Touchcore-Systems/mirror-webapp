@@ -13,16 +13,16 @@ export const login = async (email, password) => {
             Accept: "application/json, text/plain",
             "Content-Type": "application/json",
         };
-        const data = await axios.post(
+        const { data } = await axios.post(
             `${BASE_URL + APP_URL}/default/call/json/authorize`,
-            headers,
             {
                 email,
                 password,
-            }
+            },
+            { headers }
         );
 
-        setLoggedInUser(data);
+        //setLoggedInUser(data);
         return data;
 
     } catch (error) {
