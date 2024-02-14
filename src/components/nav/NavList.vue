@@ -12,7 +12,7 @@
       <i
         v-else
         :class="navList?.icon?.class"
-        style="font-size: 14px; margin-right: 20px"
+        class="icon-class"
       ></i>
       <span>{{ navList?.name }}</span>
     </div>
@@ -36,5 +36,10 @@ const aciveTab = computed(() => navList.name === route.name);
 <style scoped>
 .nav-item {
   cursor: pointer !important;
+}
+
+.icon-class{
+  font-size: 14px;
+   margin-right: 20px
 }
 </style>

@@ -2,7 +2,7 @@
   <footer class="content-footer">
     <p class="text-center text-muted footer-text btn-block">
       <a href="https://www.mirrorar.io/" target="_blank" class="">
-        <img src="@/assets/img/logo.svg" style="width: 100px" />
+        <img src="@/assets/img/logo.svg" class="w-100px" />
       </a>
       <br />Copyright &copy;<span id="year"></span> MirrorAR LLC. All Rights
       Reserved. <br />
@@ -23,4 +23,10 @@ onMounted(() => {
 });
 
 </script>
+
+<style scoped>
+.w-100px{
+  width: 100px
+}
+</style>
 

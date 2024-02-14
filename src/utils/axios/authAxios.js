@@ -7,6 +7,7 @@
 //           return Promise.reject(error);
 //       }
 //   );
+
 import authAxiosInstance from "./authAxiosInstance";
 
 const authAxios = async (
@@ -23,6 +24,7 @@ const authAxios = async (
 
     if (payload) {
       axiosConfig.data = payload;
+       //axiosConfig.data = JSON.parse(JSON.stringify(payload));
     }
 
     if (additionalHeaders) {
@@ -31,14 +33,16 @@ const authAxios = async (
         ...additionalHeaders,
       };
     }
-
+console.log(axiosConfig);
     const { data } = await authAxiosInstance(axiosConfig);
     console.log(data, `data from ${authAxiosInstance.defaults.baseURL + url}`);
     return data;
 
 
   } catch (error) {
-
+    
+console.log(error);
+console.log(error.message);
     const err =
       error.response && error.response.data
         ? error.response.data

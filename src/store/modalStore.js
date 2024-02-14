@@ -1,13 +1,18 @@
 import { computed, ref } from "vue";
+
 import { defineStore } from "pinia";
 
 export const useModalStore = defineStore("modal", () => {
-  const patientId = ref({});
-  const typeofModal = ref();
-  const showModal = ref();
+  const patientId = ref(null);
+  const typeofModal = ref(null);
+  const showModal = ref(null);
   const patient = ref({
-    height: {},
+    height: {
+      feet: "",
+      inches: "",
+    },
   });
+  const error = ref("");
   const selectedRow = ref(null);
 
   //getters
@@ -20,15 +25,30 @@ export const useModalStore = defineStore("modal", () => {
     typeofModal.value = null;
     showModal.value = false;
     document.body.classList.remove("modal-open");
+    patientId.value = null;
+    patient.value = {
+      height: {},
+    };
   };
 
   const handleAddEdit = (patientDetails, type) => {
     typeofModal.value = type;
     showModal.value = true;
-    patientId.value = patientDetails;
-    // patient.value=patientDetails
+    
+    if (type === "Edit Patient") {
+      patientId.value = patientDetails?._id;
+      patient.value = patientDetails || {};
+  
+
+      patient.value.phone = patient.value.phone || "";
+      patient.value.dateOfBirth = patient.value.dateOfBirth || "";
+  
+      
+      patient.value.height = patient.value.height || { feet: "", inches: "" };
+      patient.value.weight = patient.value.weight || "";
+    }
     document.body.classList.add("modal-open");
-    console.log(patient.value, "patient");
+  
   };
 
   return {
@@ -39,5 +59,6 @@ export const useModalStore = defineStore("modal", () => {
     selectedRow,
     handleClose,
     handleAddEdit,
+    patientId,
   };
 });

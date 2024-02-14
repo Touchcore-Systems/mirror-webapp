@@ -13,8 +13,7 @@ onMounted(() => {
   <br />
   <br />
   <div
-    class="text-center footer-text btn-block"
-    style="color: white; font-size: 0.7rem"
+    class="text-center footer-text btn-block font-size-colour"
   >
     <p>
       Copyright &copy; <span id="year"></span> MirrorAR LLC. All Rights
@@ -41,5 +40,10 @@ onMounted(() => {
 
 .footer-text > a:hover {
   color: rgba(60, 204, 175, 1);
+}
+
+.font-size-colour{
+  color: white; 
+  font-size: 0.7rem
 }
 </style>

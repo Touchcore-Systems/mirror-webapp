@@ -1,3 +1,3 @@
 <template>
-  <i  class="fas fa-circle-notch fa-spin" style="margin-left: 5px"></i>
+  <i  class="fas fa-circle-notch fa-spin marginl-5" ></i>
 </template>

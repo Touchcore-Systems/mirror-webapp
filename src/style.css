@@ -525,3 +525,9 @@ input:checked+.slider:before {
     background-color: #2BA58D !important;
     border-color: #2BA58D !important;
 }
+
+
+/* custom classes */
+.marginl-5{
+    margin-left: 5px
+}

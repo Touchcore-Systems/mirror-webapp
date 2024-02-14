@@ -45,3 +45,8 @@ required:Boolean,
 
   </div>
 </template>
+<style scoped>
+input[disabled]{
+cursor: not-allowed;
+}
+</style>

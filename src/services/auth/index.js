@@ -10,7 +10,7 @@ import { APP_URL, BASE_URL } from "@/utils/config";
 export const login = async (email, password) => {
     try {
         const headers = {
-            Accept: "application/json, text/plain",
+            "Accept": "application/json, text/plain",
             "Content-Type": "application/json",
         };
         const { data } = await axios.post(

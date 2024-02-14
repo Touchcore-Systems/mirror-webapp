@@ -8,10 +8,10 @@
                     </div>
                 </a>
                 <!-- dropdown-link -->
-                <div class="dropdown-menu dropdown-menu-right tx-13" style="padding:0px">
-                    <h6 class="tx-semibold mg-b-5 padding-lr" style="padding-top:25px!important;">{{ firstName }} {{ lastName }}
+                <div class="dropdown-menu dropdown-menu-right tx-13 padding-t-0px">
+                    <h6 class="tx-semibold mg-b-5 padding-lr padding-top-25px">{{ firstName }} {{ lastName }}
                     </h6>
-                    <p class="tx-12 tx-color-03 padding-lr" style="text-transform: uppercase;">{{ role }}</p>
+                    <p class="tx-12 tx-color-03 padding-lr font-trans" >{{ role }}</p>
                     <div class="dropdown-divider padding-lr"></div>
                     <!-- <ul id="orgList">
                         <li v-for="availOrg in availableOrgs" v-on:click="selectOrg($event, availOrg)"
@@ -28,8 +28,7 @@
                     <a href="#" v-on:click="signout()" class="dropdown-item padding-lr"><i data-feather="log-out"></i>Sign
                         Out</a>
                     <div class="dropdown-divider padding-lr"></div>
-                    <p class="mg-b-3 tx-12 padding-lr"><span class="powered-by">MirrorAR</span><sup
-                            style="font-size: 7px;">TM</sup></p>
+                    <p class="mg-b-3 tx-12 padding-lr"><span class="powered-by">MirrorAR</span><sup class="font-size-7px">TM</sup></p>
                     <!-- <p class="mg-b-0 tx-12 tx-color-03 padding-lr" style="padding-bottom:10px!important;">Version
                         {{ backendVersion }}</p>
 
@@ -147,4 +146,20 @@ const { org_name, role, firstName,lastName } = defineProps([
 .powered-by {
     font-weight: 700;
     color: #595B6B;
-}</style>
+}
+
+.padding-t-0px{
+    padding:0px;
+}
+
+.padding-top-25px{
+    padding-top:25px!important;
+}
+
+.font-trans{
+    text-transform: uppercase;
+}
+.font-size-7px{
+    font-size: 7px;
+}
+</style>
