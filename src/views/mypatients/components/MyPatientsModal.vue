@@ -1,36 +1,54 @@
-  <script setup >
+<script setup>
 import BaseInput from "@/components/base/BaseInput.vue";
 import BaseModal from "@/components/base/BaseModal.vue";
 
 import { useModalStore } from "@/store/modalStore.js";
+import { useToastStore } from "@/store/toastStore.js";
+
 import { storeToRefs } from "pinia";
 import { editOrDeletePatient } from "../../../services/provider/dashboard";
+
 const store = useModalStore();
 const { showModal, modalStyle, patient, typeofModal } = storeToRefs(store);
 const { handleClose } = store;
 
-const handleSubmit = () => {
-  switch (typeofModal.value) {
-    case "Add Patient":
-      console.log(typeofModal.value);
-      handleClose();
-      break;
-    case "Edit Patient":
-      editOrDeletePatient(true,patient.value);
-      console.log(typeofModal.value);
-      handleClose();
-      break;
-    case "Delete Patient":
-     editOrDeletePatient(false,patient.value);
-      console.log(typeofModal.value);
-      handleClose();
-      break;
-    default:
-      console.error(`Unexpected typeofModal value: ${typeofModal.value}`);
+const toastStore = useToastStore();
+const { toastContent, toastTitle } = storeToRefs(toastStore);
+const { showToast } = toastStore;
+
+const handleSubmit = async (e) => {
+  try {
+    toastTitle.value = typeofModal.value;
+
+    switch (typeofModal.value) {
+      case "Add Patient":
+        toastContent.value = `Succesfullly Added ${patient.value.firstName}'s Details`;
+        await handleClose();
+        break;
+      case "Edit Patient":
+        await editOrDeletePatient(true, patient.value);
+        toastContent.value = `Succesfullly Edited ${patient.value.firstName}'s Details`;
+        showToast("success");
+        handleClose();
+        break;
+      case "Delete Patient":
+        editOrDeletePatient(false, patient.value);
+        toastContent.value = `Succesfullly Deleted  ${patient.value.firstName}`;
+        showToast("success");
+        handleClose();
+        break;
+      default:
+        console.error(`Unexpected typeofModal value: ${typeofModal.value}`);
+    }
+
+    
+  } catch (error) {
+    toastContent.value = error;
+    showToast("error");
   }
 };
 </script>
-  <template>
+<template>
   <BaseModal
     :centered="modalStyle"
     :showModal="showModal"
@@ -40,10 +58,7 @@ const handleSubmit = () => {
   >
     <h6 v-if="typeofModal == 'Add Patient' || typeofModal == 'Edit Patient'">
       <div class="demo-forms form">
-        <div
-          class="row form-group pl-pr-15"
-         
-        >
+        <div class="row form-group pl-pr-15">
           <BaseInput
             outerdivClass="col-sm-12 col-md-6"
             placeholder="First Name"
@@ -61,10 +76,7 @@ const handleSubmit = () => {
             labelClass="control-label"
           />
         </div>
-        <div
-          class="row form-group pl-pr-15"
-         
-        >
+        <div class="row form-group pl-pr-15">
           <BaseInput
             outerdivClass="col-sm-12 col-md-6"
             placeholder="Email"
@@ -84,10 +96,7 @@ const handleSubmit = () => {
             labelClass="control-label"
           />
         </div>
-        <div
-          class="row form-group pl-pr-15"
-         
-        >
+        <div class="row form-group pl-pr-15">
           <BaseInput
             outerdivClass="col-sm-12 col-md-6"
             placeholder="MM/DD/YYYY"
@@ -114,17 +123,14 @@ const handleSubmit = () => {
           </BaseInput>
         </div>
 
-        <div
-          class="row form-group pl-pr-15"
-          
-        >
+        <div class="row form-group pl-pr-15">
           <BaseInput
             outerdivClass="col-sm-12 col-md-6"
             label="Height"
             labelClass="control-label"
           >
             <template #others>
-              <div class="row" >
+              <div class="row">
                 <div class="input-group col-6">
                   <input
                     v-model.number="patient.height.feet"
@@ -184,8 +190,8 @@ const handleSubmit = () => {
 </template>
 
 <style scoped>
-.pl-pr-15{
+.pl-pr-15 {
   padding-left: 15px;
-   padding-right: 15px
+  padding-right: 15px;
 }
 </style>

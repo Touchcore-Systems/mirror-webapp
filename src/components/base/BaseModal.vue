@@ -26,6 +26,7 @@
 
             <ModalFooter>
               <BaseButton
+              :loading="apiLoading"
                 type="button"
                 variant="modal-btn-primary"
                 @handleClick="emit('submitClick')"
@@ -59,6 +60,9 @@ import ModalHeader from "../modal/ModalHeader.vue";
 import BaseModalLayout from "../modal/layout/BaseModalLayout.vue";
 import CenteredModalLayout from "../modal/layout/CenteredModalLayout.vue";
 import BaseButton from "./BaseButton.vue";
+import { useApiStore } from "@/store/apiStore";
+import { storeToRefs } from "pinia";
+
 const { showModal, submitType } = defineProps({
   showModal: {
     type: Boolean,
@@ -72,6 +76,8 @@ const { showModal, submitType } = defineProps({
 });
 
 const emit = defineEmits(["closeClick", "submitClick"]);
+const apiStore = useApiStore();
+const { apiLoading } = storeToRefs(apiStore);
 
 onMounted(() => {
   const modalElement = document.getElementById("reusemodal");

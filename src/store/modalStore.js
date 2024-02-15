@@ -22,13 +22,14 @@ export const useModalStore = defineStore("modal", () => {
 
   //actions
   const handleClose = () => {
-    typeofModal.value = null;
-    showModal.value = false;
-    document.body.classList.remove("modal-open");
     patientId.value = null;
     patient.value = {
       height: {},
     };
+    typeofModal.value = null;
+    showModal.value = false;
+    document.body.classList.remove("modal-open");
+    
   };
 
   const handleAddEdit = (patientDetails, type) => {
@@ -37,6 +38,12 @@ export const useModalStore = defineStore("modal", () => {
     
     if (type === "Edit Patient") {
       patientId.value = patientDetails?._id;
+      console.log(patientDetails,patientId,"Patientt");
+      
+      
+      if(!patientDetails)
+      return
+      
       patient.value = patientDetails || {};
   
 

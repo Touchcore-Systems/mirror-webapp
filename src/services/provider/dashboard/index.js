@@ -1,6 +1,8 @@
 import authAxios from "../../../utils/axios/authAxios";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "@/store/userStore";
+import { useApiStore } from "@/store/apiStore";
+
 
 const extractProviderId = () => {
   try {
@@ -24,21 +26,44 @@ export const getAllpatients = async () => {
   return data.allPatients;
 };
 
-export const editOrDeletePatient = async (edit = true, patient) => {
+export const editOrDeletePatient = async (edit = true, patientinfo) => {
+  const apiStore = useApiStore();
+  const { apiLoading } = storeToRefs(apiStore);
+  apiLoading.value = true
   try {
+    const patient = { ...patientinfo };
     console.log(patient, "patient");
     if (edit) {
       patient.providerId = extractProviderId();
+
+
+      if (patient.height) {
+        if (patient.height.feet == "" || (!patient.height.feet)) {
+          if (patient.height.inches == "" || (!patient.height.inches)) {
+            delete patient.height;
+          } else {
+            error = "Invalid value for height";
+            return;
+          }
+        } else {
+          if (patient.height.inches == "")
+            patient.height.inches = 0;
+        }
+      }
     }
-    console.log({patient}, "patient");
+    console.log({ patient }, "patient");
     const data = await authAxios(
       "/default/call/json/editPatient",
       "POST",
-      {patient}
+      { patient }
     );
+
     return data;
   } catch (error) {
     throw error
+  }
+  finally{
+    apiLoading.value = false
   }
 
 };
