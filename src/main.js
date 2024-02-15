@@ -23,20 +23,17 @@ import router from './routes';
 library.add(fas, far, fab)
 dom.watch();
 
-
-
-
-
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedState)
 
 
 const app=createApp(App)
+app.use(pinia)
+app.use(router)
 
 app.use(PrimeVue, { ripple: true  });
 app.use(ToastService);
-app.use(pinia)
-app.use(router)
+
 app.component("font-awesome-icon", FontAwesomeIcon)
 app.component(VueFeather.name, VueFeather);
 app.component('Toast', Toast);

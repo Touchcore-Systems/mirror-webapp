@@ -28,14 +28,11 @@ export const useUserStore = defineStore(
         const data = await login(email.value, password.value);
         email.value = password.value = "";
         setLoggedInUser(data);
-        console.log(route?.query);
 
-        // if (Object.keys(route?.query).length != 0) {
-        //   console.log({ path: route?.query?.redirect });
-        //   return
-        // }
 
-        router.push({ name: "My Patients" });
+        const redirectTo = route.query.redirect || { name: "My Patients" };
+        router.push(redirectTo);
+        
       } catch (e) {
         console.log(e);
         error.value = e;
@@ -71,9 +68,9 @@ export const useUserStore = defineStore(
       user.value = {};
     }
 
-    function logOut(){
-    user.value = {}
-   }
+    function logOut() {
+      user.value = {};
+    }
 
     return {
       email,
@@ -84,7 +81,7 @@ export const useUserStore = defineStore(
       user,
       handleLogin,
       $reset,
-      logOut
+      logOut,
     };
   },
 

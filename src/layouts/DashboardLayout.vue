@@ -34,14 +34,10 @@ import DashboardHeader from "../components/dashboard/DashboardHeader.vue";
 import DashboardFooter from "../components/dashboard/DashboardFooter.vue";
 import Navbar from "../components/nav/Navbar.vue";
 import UserProfile from "../components/userprofile/UserProfile.vue";
-import { getfromLocalstorage } from "../services/helpers";
 import { useUserStore } from "../store/userStore";
 import { storeToRefs } from "pinia";
 
-const org_name = ref(getfromLocalstorage('org_name'));
-const role = ref(getfromLocalstorage('role'));
-const firstName = ref("Roshni");
-const lastName = ref("V R");
+
 
 const store = useUserStore()
 const {  user } = storeToRefs(store)
