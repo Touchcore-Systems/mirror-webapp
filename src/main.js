@@ -28,11 +28,14 @@ pinia.use(piniaPluginPersistedState)
 
 
 const app=createApp(App)
-app.use(pinia)
-app.use(router)
+
+
 
 app.use(PrimeVue, { ripple: true  });
 app.use(ToastService);
+
+app.use(pinia)
+app.use(router)
 
 app.component("font-awesome-icon", FontAwesomeIcon)
 app.component(VueFeather.name, VueFeather);

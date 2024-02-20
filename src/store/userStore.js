@@ -11,8 +11,6 @@ export const useUserStore = defineStore(
     const router = useRouter();
     const route = useRoute();
 
-    const email = ref(null);
-    const password = ref(null);
     const loading = ref(false);
     const error = ref(null);
     const user = ref({});
@@ -21,18 +19,17 @@ export const useUserStore = defineStore(
     const authUser = computed(() => user.value);
 
     //actions
-    async function handleLogin() {
+    async function handleLogin(credentials) {
       try {
         loading.value = true;
         error.value = null;
-        const data = await login(email.value, password.value);
+        const data = await login(credentials.email, credentials.password);
         email.value = password.value = "";
         setLoggedInUser(data);
-
-
         const redirectTo = route.query.redirect || { name: "My Patients" };
         router.push(redirectTo);
-        
+        console.log(data,"userStore");
+
       } catch (e) {
         console.log(e);
         error.value = e;
@@ -73,8 +70,6 @@ export const useUserStore = defineStore(
     }
 
     return {
-      email,
-      password,
       loading,
       error,
       authUser,
