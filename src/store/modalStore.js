@@ -1,4 +1,4 @@
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 
 import { defineStore } from "pinia";
 
@@ -15,12 +15,15 @@ export const useModalStore = defineStore("modal", () => {
   const error = ref("");
   const selectedRow = ref(null);
 
-  //getters
-  const modalStyle = computed(() =>
-    typeofModal.value == "Delete Patient" ? true : false
-  );
+  
+
+
 
   //actions
+
+
+
+
   const handleClose = () => {
     patientId.value = null;
     patient.value = {
@@ -38,7 +41,6 @@ export const useModalStore = defineStore("modal", () => {
     
     if (type === "Edit Patient") {
       patientId.value = patientDetails?._id;
-      console.log(patientDetails,patientId,"Patientt");
       
       
       if(!patientDetails)
@@ -60,7 +62,6 @@ export const useModalStore = defineStore("modal", () => {
 
   return {
     showModal,
-    modalStyle,
     patient,
     typeofModal,
     selectedRow,

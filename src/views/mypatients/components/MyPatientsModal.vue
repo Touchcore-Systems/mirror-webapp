@@ -6,20 +6,43 @@ import { useModalStore } from "@/store/modalStore.js";
 import { useToastStore } from "@/store/toastStore.js";
 
 import { storeToRefs } from "pinia";
+import { ref, watch, computed } from "vue";
 import { editOrDeletePatient } from "../../../services/provider/dashboard";
+import DatePicker from "../../../components/elements/DatePicker.vue";
 
 const store = useModalStore();
-const { showModal, modalStyle, patient, typeofModal } = storeToRefs(store);
+const { showModal, patient, typeofModal } = storeToRefs(store);
 const { handleClose } = store;
 
 const toastStore = useToastStore();
 const { toastContent, toastTitle } = storeToRefs(toastStore);
 const { showToast } = toastStore;
 
+const patientDob = () => {
+  if (patient.value.email !== undefined) {
+    if (patient.value.dateOfBirth !== undefined) {
+      console.log("patient.value.dateOfBirth exists");
+      return new Date(patient.value.dateOfBirth);
+    } else {
+      console.log("patient.value.dateOfBirth doesnot exists");
+      return null;
+    }
+  }
+  console.log("patient.value doesnot exists");
+  return null;
+};
+
+const date = ref(patientDob());
+
+watch(patient, () => {
+  date.value = patientDob();
+});
+
 const handleSubmit = async (e) => {
   try {
     toastTitle.value = typeofModal.value;
-
+    patient.value.dateOfBirth =new Date(date.value);
+    console.log(patient.value.dateOfBirth, "Date of Birth Value");
     switch (typeofModal.value) {
       case "Add Patient":
         toastContent.value = `Succesfullly Added ${patient.value.firstName}'s Details`;
@@ -40,17 +63,22 @@ const handleSubmit = async (e) => {
       default:
         console.error(`Unexpected typeofModal value: ${typeofModal.value}`);
     }
-
-    
   } catch (error) {
     toastContent.value = error;
     showToast("error");
   }
 };
+const onDateChanged = (changedDate) => {
+  console.log(changedDate,"onDateChanged");
+  date.value = changedDate
+};
+
+
+
 </script>
 <template>
   <BaseModal
-    :centered="modalStyle"
+    :centered="typeofModal == 'Delete Patient'"
     :showModal="showModal"
     :submit-type="typeofModal"
     @closeClick="handleClose"
@@ -97,14 +125,8 @@ const handleSubmit = async (e) => {
           />
         </div>
         <div class="row form-group pl-pr-15">
-          <BaseInput
-            outerdivClass="col-sm-12 col-md-6"
-            placeholder="MM/DD/YYYY"
-            required
-            label="Date of Birth"
-            v-model="patient.dateOfBirth"
-            labelClass="control-label"
-          />
+          <DatePicker :date="date" @choosed-date="onDateChanged" />
+        
           <BaseInput
             outerdivClass="col-sm-12 col-md-6"
             placeholder="Gender"
@@ -189,9 +211,25 @@ const handleSubmit = async (e) => {
   </BaseModal>
 </template>
 
-<style scoped>
+<style>
 .pl-pr-15 {
   padding-left: 15px;
   padding-right: 15px;
 }
+.vc-container .vc-weekday-1,
+.vc-container .vc-weekday-1,
+.vc-container .vc-weekday-2,
+.vc-container .vc-weekday-3,
+.vc-container .vc-weekday-4,
+.vc-container .vc-weekday-6,
+.vc-container .vc-weekday-7,
+.vc-container .vc-weekday-5 {
+  color: #2ba58d;
+}
+
+/* vc-container:focus,
+.vc-container *:focus {
+  outline: none;
+  background-color: #2ba58d;
+} */
 </style>

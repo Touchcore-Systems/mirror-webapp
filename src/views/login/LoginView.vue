@@ -4,10 +4,11 @@ import { storeToRefs } from "pinia";
 import BaseError from "@/components/base/BaseError.vue";
 import BaseHeading from "@/components/base/BaseHeading.vue";
 import DynamicForm from "@/components/form/DynamicForm.vue";
-import PasswordResetIndicator from "./components/PasswordResetIndicator.vue";
+import { LoginformSchema } from "@/components/form/schema/schemas";
+
+import PasswordResetIndicator from "./components/Passwordresetindicator.vue";
 
 import { useUserStore } from "@/store/userStore";
-import { LoginformSchema } from "@/components/form/schema/schemas";
 
 
 const store = useUserStore();

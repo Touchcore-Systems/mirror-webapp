@@ -4,6 +4,7 @@ import Toast from 'primevue/toast';
 
 <template>
      <Toast />
+ 
 <router-view/>
 </template>
 

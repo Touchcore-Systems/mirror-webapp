@@ -20,6 +20,13 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import piniaPluginPersistedState from "pinia-plugin-persistedstate"
 import router from './routes';
 
+
+import { setupCalendar, Calendar, DatePicker } from 'v-calendar';
+import 'v-calendar/style.css';
+
+// Use plugin defaults (optional)
+
+
 library.add(fas, far, fab)
 dom.watch();
 
@@ -36,7 +43,11 @@ app.use(ToastService);
 
 app.use(pinia)
 app.use(router)
+app.use(setupCalendar, {})
 
+// Use the components
+app.component('VCalendar', Calendar)
+app.component('VDatePicker', DatePicker)
 app.component("font-awesome-icon", FontAwesomeIcon)
 app.component(VueFeather.name, VueFeather);
 app.component('Toast', Toast);
