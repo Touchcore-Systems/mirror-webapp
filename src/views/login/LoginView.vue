@@ -4,7 +4,7 @@ import { storeToRefs } from "pinia";
 import BaseError from "@/components/base/BaseError.vue";
 import BaseHeading from "@/components/base/BaseHeading.vue";
 import DynamicForm from "@/components/form/DynamicForm.vue";
-import { LoginformSchema } from "@/components/form/schema/schemas";
+import { loginformSchema } from "@/components/form/schema/schemas";
 
 import PasswordResetIndicator from '@/views/login/components/PasswordResetIndicator.vue';
 import { useUserStore } from "@/store/userStore";
@@ -19,7 +19,7 @@ const { handleLogin } = store;
   <BaseHeading heading="Sign In" />
   <BaseError v-show="error" :error="error" />
   <DynamicForm
-    :schema="LoginformSchema"
+    :schema="loginformSchema"
     @submit-handler="handleLogin"
     :loading="loading"
   />

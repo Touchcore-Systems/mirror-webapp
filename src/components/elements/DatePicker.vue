@@ -55,5 +55,22 @@ const dateInfo =ref(new Date(date));
 </script>
 
 <style scoped>
+.vc-container .vc-weekday-1,
+.vc-container .vc-weekday-1,
+.vc-container .vc-weekday-2,
+.vc-container .vc-weekday-3,
+.vc-container .vc-weekday-4,
+.vc-container .vc-weekday-6,
+.vc-container .vc-weekday-7,
+.vc-container .vc-weekday-5 {
+  color: #2ba58d;
+}
+
+
+/* vc-container:focus,
+.vc-container *:focus {
+  outline: none;
+  background-color: #2ba58d;
+} */
 </style> 
 
