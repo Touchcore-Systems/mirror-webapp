@@ -6,8 +6,7 @@ import BaseHeading from "@/components/base/BaseHeading.vue";
 import DynamicForm from "@/components/form/DynamicForm.vue";
 import { LoginformSchema } from "@/components/form/schema/schemas";
 
-import PasswordResetIndicator from "./components/Passwordresetindicator.vue";
-
+import PasswordResetIndicator from '@/views/login/components/PasswordResetIndicator.vue';
 import { useUserStore } from "@/store/userStore";
 
 
