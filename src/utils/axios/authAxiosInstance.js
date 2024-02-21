@@ -1,4 +1,4 @@
-import { APP_URL, BASE_URL } from "../config";
+
 
 import axios from "axios";
 import { storeToRefs } from 'pinia'
@@ -6,7 +6,7 @@ import { useUserStore } from '@/store/userStore';
 import { useApiStore } from "@/store/apiStore";
 
 const authAxiosInstance = axios.create({
-  baseURL: BASE_URL + APP_URL,
+  baseURL:import.meta.env.VITE_MIRRORAR_API_URL + "/default/call/json/",
   headers: {
     "Accept": "application/json, text/plain",
     "Content-Type": "application/json",

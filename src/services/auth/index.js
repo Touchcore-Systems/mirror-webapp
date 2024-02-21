@@ -1,6 +1,5 @@
 import _ from "lodash";
 import axios from "axios";
-import { APP_URL, BASE_URL } from "@/utils/config";
 
 
 
@@ -13,7 +12,7 @@ export const login = async (email, password) => {
             "Content-Type": "application/json",
         };
         const { data } = await axios.post(
-            `${BASE_URL + APP_URL}/default/call/json/authorize`,
+            `${import.meta.env.VITE_MIRRORAR_API_URL}/default/call/json/authorize`,
             {
                 email,
                 password,
@@ -28,7 +27,7 @@ export const login = async (email, password) => {
         console.log(error);
         const err = error.response && error.response.data ?
             error.response.data : "Something went wrong"
-        console.log(err, `error from ${BASE_URL + APP_URL}/default/call/json/authorize`);
+        console.log(err, `error from ${import.meta.env.VITE_MIRRORAR_API_URL}/default/call/json/authorize`);
 
         throw err
     }

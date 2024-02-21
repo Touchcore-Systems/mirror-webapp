@@ -21,7 +21,7 @@ const extractProviderId = () => {
 
 export const getAllpatients = async () => {
   const data = await authAxios(
-    `/default/call/json/getPatients?providerId=${extractProviderId()}`
+    `getPatients?providerId=${extractProviderId()}`
   );
   return data.allPatients;
 };
@@ -53,7 +53,7 @@ export const editOrDeletePatient = async (edit = true, patientinfo) => {
     }
     console.log({ patient }, "patient");
     const data = await authAxios(
-      "/default/call/json/editPatient",
+      "editPatient",
       "POST",
       { patient }
     );
@@ -69,6 +69,6 @@ export const editOrDeletePatient = async (edit = true, patientinfo) => {
 };
 
 export const getAllAssessments = async () => {
-  const data = await authAxios(`/default/call/json/getAllAssessments`, "POST");
+  const data = await authAxios(`getAllAssessments`, "POST");
   return data.allAssessments;
 };
