@@ -33,16 +33,12 @@ const authAxios = async (
         ...additionalHeaders,
       };
     }
-console.log(axiosConfig);
     const { data } = await authAxiosInstance(axiosConfig);
     console.log(data, `data from ${authAxiosInstance.defaults.baseURL + url}`);
     return data;
 
 
   } catch (error) {
-    
-console.log(error);
-console.log(error.message);
     const err =
       error.response && error.response.data
         ? error.response.data

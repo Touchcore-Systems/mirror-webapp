@@ -115,7 +115,6 @@ router.beforeEach(async (to, from) => {
     const apiStore = useApiStore();
     const isLoggedIn = () => userStore.authUser.auth_token ? true : false;
 
-   console.log(isLoggedIn(), to.name,to.meta.requiresAuth);
 
     if (isLoggedIn() && to.name == "Login") {
         return { name: "My Patients" };

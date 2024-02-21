@@ -19,7 +19,7 @@
             </BaseButton>
           </ModalHeader>
 
-          <form>
+          <form @submit="emit('submitClick')">
             <div class="modal-body">
               <slot />
             </div>
@@ -27,15 +27,14 @@
             <ModalFooter>
               <BaseButton
               :loading="apiLoading"
-                type="button"
-                variant="modal-btn-primary"
-                @handleClick="emit('submitClick')"
+                type="submit"
+                variant="modal-btn-primary" 
               >
                 {{ submitType }}
               </BaseButton>
               <BaseButton
                 aria-label="Close"
-                type="button"
+                type="submit"
                 variant="modal-btn-secondary"
                 @handleClick="emit('closeClick')"
               >

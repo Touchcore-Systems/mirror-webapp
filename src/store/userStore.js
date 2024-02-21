@@ -28,7 +28,6 @@ export const useUserStore = defineStore(
         setLoggedInUser(data);
         const redirectTo = route.query.redirect || { name: "My Patients" };
         router.push(redirectTo);
-        console.log(data,"userStore");
 
       } catch (e) {
         console.log(e);

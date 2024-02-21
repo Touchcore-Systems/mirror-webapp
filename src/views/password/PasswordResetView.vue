@@ -13,8 +13,8 @@ const loading = ref(false);
 
 const resetPassword = () => {
   loading.value = true;
-  console.log(email.value, loading.value, "dataaaaaaaaaaaaaaaaaaaaa");
 };
+
 </script>
 <template >
   <BaseHeading heading="Reset Password" />

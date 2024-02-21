@@ -50,7 +50,6 @@ const ASSESSMENT_COLUMNS = [
 ];
 
 const handleAdd = () => {
-  console.log("handle addd");
 };
 
 const handleGetallAssessments = async () => {

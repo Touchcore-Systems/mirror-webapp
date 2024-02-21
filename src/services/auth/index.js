@@ -24,7 +24,6 @@ export const login = async (email, password) => {
         return data;
 
     } catch (error) {
-        console.log(error);
         const err = error.response && error.response.data ?
             error.response.data : "Something went wrong"
         console.log(err, `error from ${import.meta.env.VITE_MIRRORAR_API_URL}/default/call/json/authorize`);
@@ -42,7 +41,6 @@ export const isLoggedIn = async () => {
     //     return false
     // return true
     const user = null;
-    console.log(user);
     if (user) return true;
     return false;
 };

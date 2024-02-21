@@ -14,7 +14,6 @@ const extractProviderId = () => {
     const provider = match ? match[1] : null;
     return provider;
   } catch (error) {
-    console.log(error);
     throw new Error("Some thing went wrong . Please log in again.");
   }
 };
@@ -32,7 +31,6 @@ export const editOrDeletePatient = async (edit = true, patientinfo) => {
   apiLoading.value = true
   try {
     const patient = { ...patientinfo };
-    console.log(patient, "patient");
     if (edit) {
       patient.providerId = extractProviderId();
 
@@ -51,7 +49,6 @@ export const editOrDeletePatient = async (edit = true, patientinfo) => {
         }
       }
     }
-    console.log({ patient }, "patient");
     const data = await authAxios(
       "editPatient",
       "POST",

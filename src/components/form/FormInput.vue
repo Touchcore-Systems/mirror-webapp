@@ -10,7 +10,6 @@ const { field } = defineProps({
   },
 });
 const { as, labelClass, name, placeholder,label, children, outerdivClass, ...attrs } = field;
-console.log(attrs);
 </script>
 <template>
   <div :class="outerdivClass ? outerdivClass : 'form-group'">

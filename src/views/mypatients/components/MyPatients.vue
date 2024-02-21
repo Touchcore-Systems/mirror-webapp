@@ -28,7 +28,7 @@ const handleGetallPatients = async () => {
   try {
     myallPatients.value = await getAllpatients();
   } catch (error) {
-    console.log(error);
+    
   }
 };
 
