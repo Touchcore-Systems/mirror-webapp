@@ -18,10 +18,10 @@
               <span aria-hidden="true">×</span>
             </BaseButton>
           </ModalHeader>
-
-          <form @submit="emit('submitClick')">
+          <slot name="strictForm">
+          <form>
             <div class="modal-body">
-              <slot />
+              <slot name="bodystrictForm" />
             </div>
 
             <ModalFooter>
@@ -34,7 +34,7 @@
               </BaseButton>
               <BaseButton
                 aria-label="Close"
-                type="submit"
+                type="button"
                 variant="modal-btn-secondary"
                 @handleClick="emit('closeClick')"
               >
@@ -42,6 +42,7 @@
               </BaseButton>
             </ModalFooter>
           </form>
+          </slot>
         </component>
       </div>
       <div
@@ -109,7 +110,7 @@ onMounted(() => {
   transition: 0.25s ease all;
 }
 
-.show{
+.show {
   display: block;
 }
 </style>

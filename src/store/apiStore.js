@@ -16,9 +16,10 @@ export const useApiStore = defineStore("api", () => {
   //actions
   const handleApiError = (error, toQuery = null) => {
     toastStore.toastTitle = "Authentication"
-    if (error == "Authentication required. Please log in") {
+    if (error == "Authentication required. Please log in" ||"Authorization Header Expired" ) {
       toastStore.toastContent = "Something went wrong. Please log in again."
       toastStore.showToast("error");
+      console.log(toQuery,"toQuery");
       if (toQuery)
         router.push({ name: "Login", query: { redirect: toQuery } })
       else

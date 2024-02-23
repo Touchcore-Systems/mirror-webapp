@@ -8,6 +8,7 @@
 //       }
 //   );
 
+import { useApiStore } from "../../store/apiStore";
 import authAxiosInstance from "./authAxiosInstance";
 
 const authAxios = async (
@@ -27,7 +28,7 @@ const authAxios = async (
        //axiosConfig.data = JSON.parse(JSON.stringify(payload));
     }
 
-    if (additionalHeaders) {
+  if (additionalHeaders) {
       axiosConfig.headers = {
         ...authAxiosInstance.defaults.headers.common,
         ...additionalHeaders,
@@ -39,12 +40,17 @@ const authAxios = async (
 
 
   } catch (error) {
-    const err =
-      error.response && error.response.data
-        ? error.response.data
-        : "Something went wrong";
-        
+    const apiStore = useApiStore();
+    // const err =
+    //   error.response && error.response.data
+    //     ? error.response.data
+    //     : "Something went wrong";
+    const err ="Authorization Header Expired"
     console.error(err, `error from ${authAxiosInstance.defaults.baseURL + url}`);
+    if (err=="Authorization Header Expired"){
+      apiStore.handleApiError(err)
+      window.location.href('/')
+    }
 
     throw err;
   }

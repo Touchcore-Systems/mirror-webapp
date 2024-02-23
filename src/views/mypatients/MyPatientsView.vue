@@ -1,4 +1,5 @@
 <script setup>
+import TestForm from "../../components/test/testForm.vue";
 import MyPatients from "./components/MyPatients.vue";
 
 import { useRoute } from "vue-router";

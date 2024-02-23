@@ -2,7 +2,7 @@
   <!-- btn btn-xs action-btn mg-r-3 btn-primary -->
   <button
     :type="type"
-    @click="emit('handleClick')"
+    @click="onClick"
     class="btn"
     :class="styles"
     :disabled="loading"
@@ -51,6 +51,11 @@ const styles = computed(() => {
       break;
   }
 });
+
+const onClick=()=>{
+  if(type=="submit") return
+  emit('handleClick')
+}
 </script>
 
 <style scoped>

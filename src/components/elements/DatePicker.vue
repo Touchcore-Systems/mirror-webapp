@@ -11,13 +11,14 @@
     <template #default="{ inputValue, inputEvents }">
       <BaseInput
         :value="inputValue"
+        required
         v-on="inputEvents"
         outerdivClass="col-sm-12 col-md-6"
         placeholder="Choose Date Of Birth"
         label="Date of Birth"
         labelClass="control-label"
         @input="emit('choosedDate',$event.target.value)"
- 
+        name="datepicker"
 
       />
     </template>
@@ -51,7 +52,7 @@ const selectAttribute = ref({
 
 
 const { date,disabledDates } = defineProps(['disabledDates','date']);
-const dateInfo =ref(new Date(date));
+const dateInfo =ref(date);
 </script>
 
 <style scoped>
@@ -73,4 +74,3 @@ const dateInfo =ref(new Date(date));
   background-color: #2ba58d;
 } */
 </style> 
-

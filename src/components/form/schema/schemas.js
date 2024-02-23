@@ -23,16 +23,16 @@ export const loginformSchema = {
 
 
 
-const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
-export const myPatientSchema = Yup.object({
-  firstName: Yup.string().required(),
-  lastName: Yup.string().required(),
-  phone:Yup.string().matches(phoneRegExp, 'Phone number is not valid'),
+  const phoneRegExp = /^(((\+[1-9]{1,4}[ \-]*)|(\([0-9]{2,3}\)[ \-]*)|([0-9]{2,4})[ \-]*)*?[0-9]{3,4}?[ \-]*[0-9]{3,4}?)?$/;
+  export const myPatientSchema = Yup.object({
+  firstName: Yup.string().required().label("First Name"),
+  lastName: Yup.string().required().label("Last Name"),
+  phone:Yup.string().nullable().matches(phoneRegExp, 'Phone number is not valid'),
   email: Yup.string().email().required(),
   gender:Yup.string().required(),
-  date:Yup.date().nullable().required('Date of birth is required'),
-  heightFeet:Yup.number().nullable().min(1).max(10),
-  heightInches:Yup.number().nullable().min(1).max(10),
-  weightLbs:Yup.number().nullable().min(1).max(10),
+  // dateofBirth:Yup.date('Date of birth is invalid').nullable(),
+  heightFeet:Yup.number().transform((value, originalValue) => (originalValue === "" ? null : value)).nullable().min(1).max(10).label("Height (ft)"),
+  heightInches:Yup.number().transform((value, originalValue) => (originalValue === "" ? null : value)).nullable().min(1).max(10).label("Height (inchs)"),
+  weightLbs:Yup.number().transform((value, originalValue) => (originalValue === "" ? null : value)).nullable().min(1).max(10).label("Weight (lbs)"),
 });
   
