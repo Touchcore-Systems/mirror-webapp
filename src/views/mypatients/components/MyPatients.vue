@@ -15,6 +15,7 @@ import { computed, onMounted, ref, watch } from "vue";
 import { useModalStore } from "@/store/modalStore.js";
 import { useProviderStore } from "@/store/providerStore";
 import { storeToRefs } from "pinia";
+import { useApiStore } from "../../../store/apiStore";
 
 const selectedRow = ref(null);
 
@@ -23,22 +24,19 @@ const patientsRequireActiveSubscription = ref(false);
 const store = useModalStore();
 const {  handleAddEdit } = store;
 
+
 const providerStore = useProviderStore();
 const {myallPatients}=storeToRefs(providerStore)
 const {  handleGetallPatients } = providerStore;
 
-
+const apiStore=useApiStore()
 
 onMounted(() => {
+  apiStore.startProgress()
   handleGetallPatients();
+  apiStore.endProgress()
 });
 
-
-// const reactivePatients = ref([]);
-
-// watch(myallPatients, (newPatients) => {
-//   reactivePatients.value = [...newPatients];
-// });
 
 
 const MY_PATIENT_COLUMNS = [
@@ -151,6 +149,11 @@ const showDeleteIcon = (rowId) => {
     @onrowSelected="showDeleteIcon"
     @addBtnClicked="() => handleAddEdit(null, 'Add Patient')"
   />
+ 
+
   <BaseProgressLoader v-else />
+
+
+  <!-- hry -->
   <MyPatientsModal />
 </template>

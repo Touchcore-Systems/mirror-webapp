@@ -1,27 +1,25 @@
 <script setup>
+import { storeToRefs } from "pinia";
+import { ref, watch } from "vue";
+import { useForm } from "vee-validate";
+
 import BaseInput from "@/components/base/BaseInput.vue";
 import BaseModal from "@/components/base/BaseModal.vue";
-import BaseLoader from "../../../components/base/BaseLoader.vue";
+import BaseLoader from "@/components/base/BaseLoader.vue";
+import DatePicker from "@/components/elements/DatePicker.vue";
+import ModalFooter from "@/components/modal/ModalFooter.vue";
+import BaseButton from "@/components/base/BaseButton.vue";
+import { myPatientSchema } from "@/components/form/schema/schemas.js";
+
+
 
 import { useModalStore } from "@/store/modalStore.js";
 import { useToastStore } from "@/store/toastStore.js";
-
-import { storeToRefs } from "pinia";
-import { ref, watch, computed } from "vue";
-import {
-  addPatient,
-  editOrDeletePatient,
-  getAllpatients,
-} from "../../../services/provider/dashboard";
-import DatePicker from "@/components/elements/DatePicker.vue";
-import { useForm } from "vee-validate";
+import { useProviderStore } from "@/store/providerStore";
 import { useApiStore } from "@/store/apiStore";
-import { formatDate, formatPatientObject } from "../../../services/helpers";
-import { myPatientSchema } from "../../../components/form/schema/schemas.js";
-import TestBaseInput from "../../../components/base/TestBaseInput.vue";
-import ModalFooter from "@/components/modal/ModalFooter.vue";
-import BaseButton from "@/components/base/BaseButton.vue";
-import { useProviderStore } from "../../../store/providerStore";
+import { formatPatientObject } from "@/services/helpers";
+import { addPatient, editOrDeletePatient,} from "@/services/provider/dashboard";
+
 
 const store = useModalStore();
 const { showModal, patient, typeofModal } = storeToRefs(store);
@@ -39,9 +37,10 @@ const { handleGetallPatients } = providerStore;
 
 const date = ref(patientDob());
 
-const { handleSubmit, setValues, defineField, errors, resetForm } = useForm({
-  validationSchema: myPatientSchema,
-});
+const { handleSubmit, setValues, defineField, errors, resetForm, values } =
+  useForm({
+    validationSchema: myPatientSchema,
+  });
 
 watch(patient, () => {
   date.value = patientDob();
@@ -70,44 +69,47 @@ const closeHandler = () => {
   resetForm();
   handleClose();
 };
-const submitHandler = handleSubmit(async (values) => {
+
+const handleAction = async (isDelete) => {
   try {
     toastTitle.value = typeofModal.value;
     patient.value = formatPatientObject(values, date.value);
-    switch (typeofModal.value) {
-      case "Add Patient":
-        toastContent.value = `Succesfullly Added ${patient.value.firstName}'s Details`;
-        await addPatient(patient.value);
-        showToast("success");
-        handleClose();
-        break;
-      case "Edit Patient":
-        await editOrDeletePatient(true, patient.value);
-        toastContent.value = `Succesfullly Edited ${patient.value.firstName}'s Details`;
-        showToast("success");
-        handleClose();
-        break;
-      case "Delete Patient":
-        editOrDeletePatient(false, patient.value);
-        toastContent.value = `Succesfullly Deleted  ${patient.value.firstName}`;
-        showToast("success");
-        handleClose();
-        break;
-      default:
-        console.error(`Unexpected typeofModal value: ${typeofModal.value}`);
-    }
 
+    if (isDelete) {
+      await editOrDeletePatient(false, patient.value);
+      toastContent.value = `Successfully Deleted  ${patient.value.firstName}`;
+    } else {
+      switch (typeofModal.value) {
+        case "Add Patient":
+          toastContent.value = `Succesfullly Added ${patient.value.firstName}'s Details`;
+          await addPatient(patient.value);
+          break;
+        case "Edit Patient":
+          await editOrDeletePatient(true, patient.value);
+          toastContent.value = `Succesfullly Edited ${patient.value.firstName}'s Details`;
+          break;
+        default:
+          console.error(`Unexpected typeofModal value: ${typeofModal.value}`);
+      }
+    }
+    showToast("success");
+    handleClose();
     await handleGetallPatients();
   } catch (error) {
     toastContent.value = error;
     showToast("error");
   }
-});
+};
 
 const onDateChanged = (changedDate) => {
   console.log(changedDate, "onDateChanged");
   date.value = changedDate;
 };
+
+
+const submitHandler = handleSubmit(() => handleAction(false));
+const deleteHandler = () => handleAction(true);
+
 </script>
 <template>
   <BaseModal
@@ -115,7 +117,7 @@ const onDateChanged = (changedDate) => {
     :showModal="showModal"
     :submit-type="typeofModal"
     @closeClick="closeHandler"
-    @submitClick="submitHandler"
+    @submitClick="deleteHandler"
   >
     <template
       #strictForm

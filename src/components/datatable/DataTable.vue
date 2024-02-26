@@ -1,7 +1,6 @@
 <script setup>
 import { ref, computed, watch, reactive } from "vue";
-import BaseButton from '../base/BaseButton.vue';
-
+import BaseButton from "../base/BaseButton.vue";
 
 const props = defineProps({
   data: Array,
@@ -27,15 +26,13 @@ const filter = ref("");
 const rowSelection = ref({});
 const emit = defineEmits(["onrowSelected", "addBtnClicked"]);
 
-
-
 const tableOptions = reactive({
   get data() {
-      return props.data;
-    },
-    get columns() {
-      return props.columns;
-    },
+    return props.data;
+  },
+  get columns() {
+    return props.columns;
+  },
 
   state: {
     get sorting() {
@@ -92,7 +89,6 @@ const tableOptions = reactive({
 });
 const table = useVueTable(tableOptions);
 
-
 const resetPagination = () => {
   table.setPageIndex(0);
   currentPage.value = 1;
@@ -127,6 +123,22 @@ const paginatePrev = () => {
   if (table.getCanPreviousPage()) {
     currentPage.value = currentPage.value - 1;
     table.previousPage();
+  }
+};
+const getSortingClass = (header) => {
+  const isAsc = header.column.getIsSorted() === 'asc';
+  const isDesc = header.column.getIsSorted() === 'desc';
+  const isDisabled = header.column.getCanSort() == !true;
+
+  // Determine which sorting class should be applied
+  if (isAsc) {
+    return 'sorting_asc';
+  } else if (isDesc) {
+    return 'sorting_desc';
+  } else if (isDisabled) {
+    return 'sorting_disabled';
+  } else {
+    return 'sorting';
   }
 };
 </script>
@@ -167,7 +179,6 @@ const paginatePrev = () => {
               v-for="headerGroup in table.getHeaderGroups()"
               :key="headerGroup.id"
             >
-              <!-- need to add class  class=sorting_disabled,sorting_asc,sorting_desc -->
               <th
                 v-for="header in headerGroup.headers"
                 :key="header.id"
@@ -175,25 +186,15 @@ const paginatePrev = () => {
                 @click="header.column.getToggleSortingHandler()?.($event)"
                 rowspan="1"
                 colspan="1"
+                
                 aria-label=""
-                :class="{
-                  sorting_asc: header.column.getIsSorted() === 'asc',
-                  sorting_desc: header.column.getIsSorted() === 'desc',
-                  sorting_disabled: header.column.getIsSorted() === false,
-                }"
+                :class="getSortingClass(header)"
               >
+              {{ console.log(header.column.getIsSorted(),"header") }}
                 <FlexRender
                   :render="header.column.columnDef.header"
                   :props="header.getContext()"
                 />
-
-                {{
-                  header.column.getCanSort()
-                    ? { asc: "↑", desc: "↓", false: "↑↓" }[
-                        header.column.getIsSorted()
-                      ]
-                    : ""
-                }}
               </th>
             </tr>
           </thead>
@@ -317,4 +318,63 @@ const paginatePrev = () => {
   background: transparent;
   border-color: #0168fa;
 }
+table.dataTable {
+  border: 1px solid rgba(72, 94, 144, 0.16);
+}
+table.dataTable.no-footer {
+  border-bottom-color: rgba(72, 94, 144, 0.16);
+}
+table.dataTable thead th,
+table.dataTable thead td {
+  border-top-width: 0;
+  border-bottom-width: 0;
+  padding: 8px 10px;
+  font-weight: 500;
+  font-size: inherit;
+}
+table.dataTable thead .sorting_asc,
+table.dataTable thead .sorting_desc {
+  background-image: none;
+  background-color: #eceff3;
+  position: relative;
+}
+table.dataTable thead .sorting_asc::after,
+table.dataTable thead .sorting_desc::after {
+  font-family: "Ionicons";
+  font-size: 11px;
+  position: absolute;
+  line-height: 0;
+  top: 50%;
+  right: 10px;
+}
+table.dataTable thead .sorting_asc::after {
+  content: "\f3d8";
+}
+table.dataTable thead .sorting_desc::after {
+  content: "\f3d0";
+}
+table.dataTable thead .sorting {
+  background-image: none;
+  position: relative;
+}
+table.dataTable thead .sorting::before,
+table.dataTable thead .sorting::after {
+  font-family: "Ionicons";
+  font-size: 11px;
+  position: absolute;
+  line-height: 0;
+  right: 10px;
+}
+table.dataTable thead .sorting::before {
+  content: "\f3d8";
+  top: 40%;
+}
+table.dataTable thead .sorting::after {
+  content: "\f3d0";
+  top: 60%;
+}
+table.dataTable tbody td.sorting_1 {
+  background-color: #f3f4f7;
+}
+
 </style>

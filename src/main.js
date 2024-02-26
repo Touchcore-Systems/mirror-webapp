@@ -1,7 +1,9 @@
 import 'vue-ionicons/ionicons.css';
 import './assets/css/dashforge.auth.css'
 import './assets/css/dashforge.css'
+import 'nprogress/nprogress.css' 
 import './style.css'
+import './assets/lib/ionicons/css/ionicons.min.css'
 import 'primevue/resources/themes/aura-light-green/theme.css'
 
 import { dom, library } from "@fortawesome/fontawesome-svg-core";
@@ -23,6 +25,7 @@ import router from './routes';
 
 import { setupCalendar, Calendar, DatePicker } from 'v-calendar';
 import 'v-calendar/style.css';
+import nProgress from 'nprogress';
 
 // Use plugin defaults (optional)
 

@@ -55,7 +55,7 @@ export const useModalStore = defineStore("modal", () => {
     typeofModal.value = type;
     showModal.value = true;
     
-    if (type === "Edit Patient") {
+    if (type === "Edit Patient" || "Delete Patient") {
       patientId.value = patientDetails?._id;
       
       

@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 
 import { useToastStore } from "./toastStore";
 import { useRoute, useRouter } from "vue-router";
+import nProgress from "nprogress";
 
 export const useApiStore = defineStore("api", () => {
   const apiLoading = ref(false);
@@ -30,8 +31,18 @@ export const useApiStore = defineStore("api", () => {
     }
   };
 
+  const startProgress = () => {
+    apiLoading.value=true
+  };
+
+  const endProgress = () => {
+    apiLoading.value=false
+  };
+
   return {
     apiLoading,
     handleApiError,
+    startProgress,
+    endProgress
   };
 });

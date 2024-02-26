@@ -27,8 +27,9 @@
             <ModalFooter>
               <BaseButton
               :loading="apiLoading"
-                type="submit"
+                type="button"
                 variant="modal-btn-primary" 
+                @handleClick="emit('submitClick')"
               >
                 {{ submitType }}
               </BaseButton>

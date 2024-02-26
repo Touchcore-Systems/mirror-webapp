@@ -31,7 +31,7 @@ export const addPatient = async (patient) => {
   const { apiLoading } = storeToRefs(apiStore);
 
   const store = useUserStore();
-    const { user } = storeToRefs(store);
+  const { user } = storeToRefs(store);
   patient["provider"] = {
     "_id": user.value.user_id,
     "firstName": user.value.first_name,
@@ -39,7 +39,7 @@ export const addPatient = async (patient) => {
   }
   apiLoading.value = true
   try {
-    
+
     const data = await authAxios(
       "addPatient",
       "POST",
@@ -50,7 +50,7 @@ export const addPatient = async (patient) => {
   } catch (error) {
     throw error
   }
-  finally{
+  finally {
     apiLoading.value = false
   }
 
@@ -65,23 +65,13 @@ export const editOrDeletePatient = async (edit = true, patientinfo) => {
     let patient = { ...patientinfo };
     if (edit) {
       patient.providerId = extractProviderId();
-
-
-      // if (patient.height) {
-      //   if (patient.height.feet == "" || (!patient.height.feet)) {
-      //     if (patient.height.inches == "" || (!patient.height.inches)) {
-      //       delete patient.height;
-      //     } else {
-      //       error = "Invalid value for height";
-      //       return;
-      //     }
-      //   } else {
-      //     if (patient.height.inches == "")
-      //       patient.height.inches = 0;
-      //   }
-      // }
-
-      patient=validateAndNormalizePatient(patient)
+      patient = validateAndNormalizePatient(patient)
+    }
+    if (!edit) {
+      if (!patient.height) {
+        patient.height = {}
+      }
+      patient.status = "Deleted";
     }
     const data = await authAxios(
       "editPatient",
@@ -94,7 +84,7 @@ export const editOrDeletePatient = async (edit = true, patientinfo) => {
     console.error(error);
     throw error
   }
-  finally{
+  finally {
     apiLoading.value = false
   }
 
