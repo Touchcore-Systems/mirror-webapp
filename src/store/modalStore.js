@@ -1,6 +1,7 @@
 import { computed, ref, watch } from "vue";
 
 import { defineStore } from "pinia";
+import { useForm } from "vee-validate";
 
 export const useModalStore = defineStore("modal", () => {
   const patientId = ref(null);
@@ -21,7 +22,16 @@ export const useModalStore = defineStore("modal", () => {
 
   //actions
 
-
+  function patientDob() {
+    if (patient.value.email !== undefined) {
+      if (patient.value.dateOfBirth !== undefined) {
+        return new Date(patient.value.dateOfBirth);
+      } else {
+        return null;
+      }
+    }
+    return null;
+  }
 
 
   const handleClose = () => {
@@ -34,6 +44,12 @@ export const useModalStore = defineStore("modal", () => {
     document.body.classList.remove("modal-open");
     
   };
+
+  const toastMessages =ref({
+    "Add Patient": `Successfully Added ${patient.value.firstName}'s Details`,
+    "Edit Patient": `Successfully Edited ${patient.value.firstName}'s Details`,
+    "Delete Patient": `Successfully Deleted ${patient.value.firstName}`,
+  }) ;
 
   const handleAddEdit = (patientDetails, type) => {
     typeofModal.value = type;
@@ -68,5 +84,7 @@ export const useModalStore = defineStore("modal", () => {
     handleClose,
     handleAddEdit,
     patientId,
+    patientDob,
+    toastMessages
   };
 });

@@ -33,6 +33,6 @@ export const loginformSchema = {
   // dateofBirth:Yup.date('Date of birth is invalid').nullable(),
   heightFeet:Yup.number().transform((value, originalValue) => (originalValue === "" ? null : value)).nullable().min(1).max(10).label("Height (ft)"),
   heightInches:Yup.number().transform((value, originalValue) => (originalValue === "" ? null : value)).nullable().min(1).max(10).label("Height (inchs)"),
-  weightLbs:Yup.number().transform((value, originalValue) => (originalValue === "" ? null : value)).nullable().min(1).max(10).label("Weight (lbs)"),
+  weightLbs:Yup.number().transform((value, originalValue) => (originalValue === "" ? null : value)).nullable().min(1).max(300).label("Weight (lbs)"),
 });
   

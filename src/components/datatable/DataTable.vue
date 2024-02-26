@@ -1,8 +1,7 @@
 <script setup>
-import { ref, computed } from "vue";
-import BaseButton from "../base/BaseButton.vue";
-import BaseInput from "../base/BaseInput.vue";
-import DataCheckbox from "./DataCheckbox.vue";
+import { ref, computed, watch, reactive } from "vue";
+import BaseButton from '../base/BaseButton.vue';
+
 
 const props = defineProps({
   data: Array,
@@ -22,28 +21,28 @@ import {
   getFilteredRowModel,
 } from "@tanstack/vue-table";
 
-
-
-const data = ref(props.data);
 const currentPage = ref(1);
 const sorting = ref(props.defaultSort ? [props.defaultSort] : []);
 const filter = ref("");
 const rowSelection = ref({});
-const emit = defineEmits(["onrowSelected",'addBtnClicked']);
-const resetPagination = () => {
-  table.setPageIndex(0);
-  currentPage.value = 1;
-};
-const table = useVueTable({
-  data: data.value,
-  columns: props.columns,
+const emit = defineEmits(["onrowSelected", "addBtnClicked"]);
+
+
+
+const tableOptions = reactive({
+  get data() {
+      return props.data;
+    },
+    get columns() {
+      return props.columns;
+    },
 
   state: {
     get sorting() {
       return sorting.value;
     },
     get globalFilter() {
-      // need to find a way to erset pagination along with filtering
+      // need to find a way to reset pagination along with filtering
 
       // if (filter.value != "") {
       //   table.setPageIndex(0);
@@ -69,14 +68,12 @@ const table = useVueTable({
   getPaginationRowModel: getPaginationRowModel(),
   getSortedRowModel: getSortedRowModel(),
   getFilteredRowModel: getFilteredRowModel(),
-
   onRowSelectionChange: (updateOrValue) => {
     rowSelection.value =
       typeof updateOrValue === "function"
         ? updateOrValue(rowSelection.value)
         : updateOrValue;
-       emit('onrowSelected',table.getState().rowSelection)
-
+    emit("onrowSelected", table.getState().rowSelection);
   },
 
   onSortingChange: (updaterOrValue) => {
@@ -93,7 +90,13 @@ const table = useVueTable({
     },
   },
 });
+const table = useVueTable(tableOptions);
 
+
+const resetPagination = () => {
+  table.setPageIndex(0);
+  currentPage.value = 1;
+};
 const getStartIndex = computed(() => {
   const { pageIndex, pageSize } = table.getState().pagination;
   return pageIndex + 1 === 1 ? pageIndex + 1 : pageIndex * pageSize + 1;
@@ -126,9 +129,7 @@ const paginatePrev = () => {
     table.previousPage();
   }
 };
-
 </script>
-
 <template>
   <div class="dataTables_wrapper no-footer">
     <div class="row">
@@ -145,7 +146,12 @@ const paginatePrev = () => {
             />
           </label>
 
-          <BaseButton title="Add" variant="add" @handleClick="emit('addBtnClicked')" data-bs-toggle="modal">
+          <BaseButton
+            title="Add"
+            variant="add"
+            @handleClick="emit('addBtnClicked')"
+            data-bs-toggle="modal"
+          >
             <i class="fa fa-plus"></i>
           </BaseButton>
         </div>
@@ -180,7 +186,7 @@ const paginatePrev = () => {
                   :render="header.column.columnDef.header"
                   :props="header.getContext()"
                 />
-             
+
                 {{
                   header.column.getCanSort()
                     ? { asc: "↑", desc: "↓", false: "↑↓" }[
@@ -196,10 +202,9 @@ const paginatePrev = () => {
             <tr
               role="row"
               :class="{
-                  odd: row.id % 2 ==0,
-                  even: row.id % 2 !==0,
-                  
-                }"
+                odd: row.id % 2 == 0,
+                even: row.id % 2 !== 0,
+              }"
               v-for="row in table.getRowModel().rows"
               :key="row.id"
             >
@@ -215,7 +220,6 @@ const paginatePrev = () => {
                   },
                 ]"
               >
-             
                 <FlexRender
                   :render="cell.column.columnDef.cell"
                   :props="cell.getContext()"
@@ -244,7 +248,6 @@ const paginatePrev = () => {
           id="myPatients-data-table_paginate"
         >
           <!-- need to add class for disabled -->
-          <!-- <BaseButton variant="paginate" :disabled="!table.getCanPreviousPage()"  @handleClick="paginatePrev">Previous</BaseButton> -->
           <a
             class="paginate_button previous"
             data-dt-idx="0"

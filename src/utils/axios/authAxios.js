@@ -41,15 +41,15 @@ const authAxios = async (
 
   } catch (error) {
     const apiStore = useApiStore();
-    // const err =
-    //   error.response && error.response.data
-    //     ? error.response.data
-    //     : "Something went wrong";
-    const err ="Authorization Header Expired"
+    console.error(error);
+    const err =
+      error.response && error.response.data
+        ? error.response.data
+        : "Something went wrong";
+   
     console.error(err, `error from ${authAxiosInstance.defaults.baseURL + url}`);
     if (err=="Authorization Header Expired"){
       apiStore.handleApiError(err)
-      window.location.href('/')
     }
 
     throw err;

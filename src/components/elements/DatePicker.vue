@@ -18,7 +18,7 @@
         label="Date of Birth"
         labelClass="control-label"
         @input="emit('choosedDate',$event.target.value)"
-        name="datepicker"
+        :name="name"
 
       />
     </template>
@@ -51,7 +51,7 @@ const selectAttribute = ref({
 });
 
 
-const { date,disabledDates } = defineProps(['disabledDates','date']);
+const { date,disabledDates,name } = defineProps(['disabledDates','date','name']);
 const dateInfo =ref(date);
 </script>
 

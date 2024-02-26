@@ -2,6 +2,7 @@ import authAxios from "../../../utils/axios/authAxios";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "@/store/userStore";
 import { useApiStore } from "@/store/apiStore";
+import { validateAndNormalizePatient } from "../../helpers";
 
 
 const extractProviderId = () => {
@@ -25,32 +26,22 @@ export const getAllpatients = async () => {
   return data.allPatients;
 };
 
-export const editOrDeletePatient = async (edit = true, patientinfo) => {
+export const addPatient = async (patient) => {
   const apiStore = useApiStore();
   const { apiLoading } = storeToRefs(apiStore);
+
+  const store = useUserStore();
+    const { user } = storeToRefs(store);
+  patient["provider"] = {
+    "_id": user.value.user_id,
+    "firstName": user.value.first_name,
+    "lastName": user.value.last_name
+  }
   apiLoading.value = true
   try {
-    const patient = { ...patientinfo };
-    if (edit) {
-      patient.providerId = extractProviderId();
-
-
-      if (patient.height) {
-        if (patient.height.feet == "" || (!patient.height.feet)) {
-          if (patient.height.inches == "" || (!patient.height.inches)) {
-            delete patient.height;
-          } else {
-            error = "Invalid value for height";
-            return;
-          }
-        } else {
-          if (patient.height.inches == "")
-            patient.height.inches = 0;
-        }
-      }
-    }
+    
     const data = await authAxios(
-      "editPatient",
+      "addPatient",
       "POST",
       { patient }
     );
@@ -65,6 +56,49 @@ export const editOrDeletePatient = async (edit = true, patientinfo) => {
 
 };
 
+
+export const editOrDeletePatient = async (edit = true, patientinfo) => {
+  const apiStore = useApiStore();
+  const { apiLoading } = storeToRefs(apiStore);
+  apiLoading.value = true
+  try {
+    let patient = { ...patientinfo };
+    if (edit) {
+      patient.providerId = extractProviderId();
+
+
+      // if (patient.height) {
+      //   if (patient.height.feet == "" || (!patient.height.feet)) {
+      //     if (patient.height.inches == "" || (!patient.height.inches)) {
+      //       delete patient.height;
+      //     } else {
+      //       error = "Invalid value for height";
+      //       return;
+      //     }
+      //   } else {
+      //     if (patient.height.inches == "")
+      //       patient.height.inches = 0;
+      //   }
+      // }
+
+      patient=validateAndNormalizePatient(patient)
+    }
+    const data = await authAxios(
+      "editPatient",
+      "POST",
+      { patient }
+    );
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error
+  }
+  finally{
+    apiLoading.value = false
+  }
+
+};
 export const getAllAssessments = async () => {
   const data = await authAxios(`getAllAssessments`, "POST");
   return data.allAssessments;

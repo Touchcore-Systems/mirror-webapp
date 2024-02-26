@@ -9,33 +9,36 @@ import MyPatientsModal from './MyPatientsModal.vue';
 
 
 
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 
-import {
-getAllpatients,
-} from "@/services/provider/dashboard";
 
 import { useModalStore } from "@/store/modalStore.js";
+import { useProviderStore } from "@/store/providerStore";
+import { storeToRefs } from "pinia";
 
 const selectedRow = ref(null);
-const myallPatients = ref([]);
+
 const patientsRequireActiveSubscription = ref(false);
 
 const store = useModalStore();
 const {  handleAddEdit } = store;
 
-const handleGetallPatients = async () => {
-  try {
-    myallPatients.value = await getAllpatients();
-  } catch (error) {
-    
-  }
-};
+const providerStore = useProviderStore();
+const {myallPatients}=storeToRefs(providerStore)
+const {  handleGetallPatients } = providerStore;
+
+
 
 onMounted(() => {
   handleGetallPatients();
 });
 
+
+// const reactivePatients = ref([]);
+
+// watch(myallPatients, (newPatients) => {
+//   reactivePatients.value = [...newPatients];
+// });
 
 
 const MY_PATIENT_COLUMNS = [
